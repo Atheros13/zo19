@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/zo19/env
+/zo19/env
+/zo19/zo19/deploy.py

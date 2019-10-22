@@ -13,6 +13,18 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import posixpath
 
+## Deployment Safety Measures
+try:
+    f = open('/etc/deploy.txt', 'r').read().split('\n')
+    secretKey = f[0]
+    db_password = f[1]
+    email_password = f[2]
+    debug_state = False
+except:
+    from zo19.deploy import *
+    debug_state = True
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +32,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1577d0f6-8339-4f68-91b1-301bee2dc6a6'
+SECRET_KEY = secretKey
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = debug_state
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['112.109.84.57', 'localhost']
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
@@ -77,8 +89,12 @@ WSGI_APPLICATION = 'zo19.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'zo19',
+        'USER': 'atheros',
+        'PASSWORD': db_password, 
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -110,4 +126,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Email 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.zo-sports.com'
+EMAIL_HOST_USER = 'info@zo-sports.com'
+EMAIL_HOST_PASSWORD = email_password
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+
+# Login
+
+
+# Custom User 
+AUTH_USER_MODEL = 'app.User'
