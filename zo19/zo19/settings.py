@@ -42,8 +42,9 @@ ALLOWED_HOSTS = ['112.109.84.57', 'localhost']
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
-    'app',
-    # Add your apps here to enable them
+
+    'zo',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -144,4 +145,4 @@ EMAIL_USE_TLS = True
 
 
 # Custom User 
-AUTH_USER_MODEL = 'app.User'
+AUTH_USER_MODEL = 'zo.User'
