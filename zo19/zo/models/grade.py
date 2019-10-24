@@ -1,6 +1,8 @@
 from django.db import models
 from djangoyearlessdate.models import YearlessDateField
 
+from .gender import Gender
+
 
 class AgeGradeManager(models.Manager):
 
@@ -88,8 +90,14 @@ class GradeManager(models.Manager):
         ''' Creates every possible permutation of Grade objects, and 
         fills the database. '''
         
-        pass
+        AgeGrade.build_all()
 
+        # recursive functions?
+
+        genders = Gender.objects.all()
+        ranks = Rank.objects.all()
+        age_grades = AgeGrade.objects.all()
+      
 class Grade(models.Model):
 
     ''' A collection of one or more age, gender and/or rank filters. '''

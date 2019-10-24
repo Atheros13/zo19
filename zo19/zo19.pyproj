@@ -34,6 +34,17 @@
   <ItemGroup>
     <Compile Include="zo\forms\forms.py" />
     <Compile Include="zo\forms\__init__.py" />
+    <Compile Include="zo\generic\forms\contact\signup_forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="zo\generic\forms\contact\general_forms.py" />
+    <Compile Include="zo\generic\forms\contact\__init__.py" />
+    <Compile Include="zo\generic\forms\__init__.py" />
+    <Compile Include="zo\generic\views\contact_success_view.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="zo\generic\views\__init__.py" />
+    <Compile Include="zo\generic\__init__.py" />
     <Compile Include="zo\models\abstract.py" />
     <Compile Include="zo\models\gender.py" />
     <Compile Include="zo\models\grade.py">
@@ -60,8 +71,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="zo\" />
+    <Folder Include="zo\generic\forms\" />
+    <Folder Include="zo\generic\forms\contact\" />
+    <Folder Include="zo\generic\views\" />
     <Folder Include="zo\migrations\" />
     <Folder Include="zo\forms\" />
+    <Folder Include="zo\generic\" />
     <Folder Include="zo\views\" />
     <Folder Include="zo\static\" />
     <Folder Include="zo\static\zo\" />
