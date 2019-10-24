@@ -2,7 +2,7 @@
 <form id="logoutForm" action="/logout/" method="post" class="navbar-right">
     {% csrf_token %}
     <ul class="nav navbar-nav navbar-right">
-        <li>{{ user }}</li>
+        <li><a href="{% url 'profile' %}">{{ user }}</a></li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
 </form>
@@ -10,6 +10,7 @@
 {% else %}
 
 <ul class="nav navbar-nav navbar-right">
+
     <li><a href="{% url 'login' %}">Log in</a></li>
 </ul>
 

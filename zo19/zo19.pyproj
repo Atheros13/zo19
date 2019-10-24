@@ -40,7 +40,7 @@
     <Compile Include="zo\generic\forms\contact\general_forms.py" />
     <Compile Include="zo\generic\forms\contact\__init__.py" />
     <Compile Include="zo\generic\forms\__init__.py" />
-    <Compile Include="zo\generic\views\contact_success_view.py">
+    <Compile Include="zo\generic\views\action_message_view.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="zo\generic\views\__init__.py" />
@@ -73,10 +73,12 @@
     <Folder Include="zo\" />
     <Folder Include="zo\generic\forms\" />
     <Folder Include="zo\generic\forms\contact\" />
+    <Folder Include="zo\generic\templates\" />
     <Folder Include="zo\generic\views\" />
     <Folder Include="zo\migrations\" />
     <Folder Include="zo\forms\" />
     <Folder Include="zo\generic\" />
+    <Folder Include="zo\templates\old\" />
     <Folder Include="zo\views\" />
     <Folder Include="zo\static\" />
     <Folder Include="zo\static\zo\" />
@@ -112,12 +114,18 @@
     <Content Include="zo\static\zo\scripts\respond.js" />
     <Content Include="zo\static\zo\scripts\respond.min.js" />
     <Content Include="zo\static\zo\scripts\_references.js" />
+    <Content Include="zo\templates\old\login.html" />
+    <Content Include="zo\templates\old\loginpartial.html" />
     <Content Include="zo\templates\zo\about.html" />
+    <Content Include="zo\templates\zo\action_message.html" />
     <Content Include="zo\templates\zo\contact.html" />
     <Content Include="zo\templates\zo\index.html" />
     <Content Include="zo\templates\zo\layout.html" />
     <Content Include="zo\templates\zo\login.html" />
     <Content Include="zo\templates\zo\loginpartial.html" />
+    <Content Include="zo\generic\templates\action_message.html" />
+    <Content Include="zo\templates\old\password_reset.html" />
+    <Content Include="zo\templates\old\password_reset_request.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">

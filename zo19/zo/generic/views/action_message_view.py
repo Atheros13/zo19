@@ -9,17 +9,17 @@ from django.http import HttpRequest
 from django.views import View
 
 
-class PostActionMessage(View):
+class ActionMessageView(View):
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, layout='zo', **kwargs):
 
 
 
         return render(
             request,
-            'public/message.html',
+            'zo/message.html' ,
             {
-                'layout':'public/layout.html',
+                'layout':'%s/layout.html' % layout,
                 'title':'Success',
                 'message':message,
                 'year':datetime.now().year,

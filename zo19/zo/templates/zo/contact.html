@@ -1,20 +1,53 @@
-{% extends "zo/layout.html" %}
+{% extends layout %}
 
 {% block content %}
 
-<h2>{{ title }}.</h2>
-<h3>{{ message }}</h3>
+    <h2>{{ title }}</h2>
+    <p>
+        {% for p in page_description %}
+            {{p}} <br/>
+        {% endfor %}
+    </p>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+    <div class="row page-content">
+        <div class="col-md-4">
+            <br />
+            {% for c in choices %}
+            <hr />
+            <div class="row">
+                <div class="col-md-5">
+                    <form actions="." method="post">
+                        {% csrf_token %}
+                        <input type="submit" name="Choice {{c.title}}" value="{{c.title}}" class="btn btn-default btn-contact" />
+                    </form>
+                </div>
+                <div class="col-md-7">
+                    <p>{{c.description}}</p>
+                </div>
+            </div>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+            {% endfor %}
+
+        </div>
+        <div class="col-md-1"></div>
+        {% if form != None %}
+            <div class="col-md-6">
+                <h3>{{form.title}} Form</h3>
+                <p>{{error_message}}</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div id="contact-form-type">
+                    {{form.as_p}}
+                    </div>
+                <div class="form-actions">
+                    <button name="{{form.title}}" value="{{form.title}}" type="submit">Submit Form</button>
+                </div>
+                </form>
+            </div>
+        {% endif %}
+
+
+    </div>
+
 
 {% endblock %}

@@ -7,6 +7,7 @@ class GeneralContactForm(forms.Form):
 
     title = 'General'
     description = 'Click to send a general message'
+    #auto_populate_user = False # 
 
     name = forms.CharField(label='Name', max_length=30, required=True)
     email = forms.EmailField(label="Email Address", required=True)
