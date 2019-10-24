@@ -28,7 +28,7 @@ class UserSignUp(models.Model):
 
         ''' Create a random temporay password, create a User with basic information 
         and assign that password. Create a UserName with basic information and link to 
-        the User. Send an email to the User which gives them their log in details. '''
+        the User. '''
 
         self.password = settings.AUTH_USER_MODEL.objects.make_random_password()
 
@@ -36,8 +36,7 @@ class UserSignUp(models.Model):
         self.user.set_password(self.password)
         self.user.save()
 
-        name = UserName(firstname=self.firstname, surname=self.surname)
-        name.user = user
+        name = UserName(firstname=self.firstname, surname=self.surname, user=self.user)
         name.save()
 
         temp = UserTemporaryPassword(password=self.password, user=self.user)
@@ -55,7 +54,7 @@ class UserSignUp(models.Model):
         self.email_message += 'using the following details:\n\n'
         self.email_message += 'Username: %s\nTemporary Password: %s\n\n' % (self.email, self.password)
         self.email_message += 'When you first log in, you will be asked to set a new password '
-        self.email_message += 'and complete some of your profile.'
+        self.email_message += 'and complete some of your profile, before you are fully signed up.'
         self.email_message += 'n\nWelcome to ZO-SPORTS.'
 
     def send_email(self):
@@ -142,7 +141,7 @@ class HubSignUp(UserHubSignUp):
 
         self.email_message = 'Hi %s,\n\n' % self.firstname
 
-        self.email_message += '\n\n%s has been added as a Hub in the ZO-SPORTS system ' % self.hub
+        self.email_message += '\n\nAs per your request, %s has been added as a Hub in the ZO-SPORTS system ' % self.hub
         self.email_message += 'and you have been listed as the Main Contact. '
         self.email_message += 'You can access %s through the Hub tab when you sign in.' % self.hub
 

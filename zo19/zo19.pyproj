@@ -5,6 +5,7 @@
     <Name>zo19</Name>
     <RootNamespace>zo19</RootNamespace>
     <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <SuppressConfigureTestFrameworkPrompt>true</SuppressConfigureTestFrameworkPrompt>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -35,6 +36,9 @@
     <Compile Include="zo\forms\__init__.py" />
     <Compile Include="zo\models\abstract.py" />
     <Compile Include="zo\models\gender.py" />
+    <Compile Include="zo\models\grade.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="zo\models\signup.py">
       <SubType>Code</SubType>
     </Compile>
