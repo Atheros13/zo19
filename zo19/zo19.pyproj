@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="zo\forms\forms.py" />
+    <Compile Include="zo\forms\password_forms.py" />
     <Compile Include="zo\forms\__init__.py" />
     <Compile Include="zo\generic\forms\contact\signup_forms.py">
       <SubType>Code</SubType>
@@ -45,7 +46,9 @@
     </Compile>
     <Compile Include="zo\generic\views\__init__.py" />
     <Compile Include="zo\generic\__init__.py" />
-    <Compile Include="zo\models\abstract.py" />
+    <Compile Include="zo\models\abstract\abstract - Copy.py" />
+    <Compile Include="zo\models\abstract\abstract.py" />
+    <Compile Include="zo\models\abstract\__init__.py" />
     <Compile Include="zo\models\gender.py" />
     <Compile Include="zo\models\grade.py">
       <SubType>Code</SubType>
@@ -78,7 +81,11 @@
     <Folder Include="zo\migrations\" />
     <Folder Include="zo\forms\" />
     <Folder Include="zo\generic\" />
+    <Folder Include="zo\models\abstract\" />
     <Folder Include="zo\templates\old\" />
+    <Folder Include="zo\templates\zo\generic\" />
+    <Folder Include="zo\templates\zo\public\" />
+    <Folder Include="zo\templates\zo\password\" />
     <Folder Include="zo\views\" />
     <Folder Include="zo\static\" />
     <Folder Include="zo\static\zo\" />
@@ -116,16 +123,16 @@
     <Content Include="zo\static\zo\scripts\_references.js" />
     <Content Include="zo\templates\old\login.html" />
     <Content Include="zo\templates\old\loginpartial.html" />
-    <Content Include="zo\templates\zo\about.html" />
-    <Content Include="zo\templates\zo\action_message.html" />
-    <Content Include="zo\templates\zo\contact.html" />
-    <Content Include="zo\templates\zo\index.html" />
+    <Content Include="zo\templates\zo\public\about.html" />
+    <Content Include="zo\templates\zo\generic\action_message.html" />
+    <Content Include="zo\templates\zo\generic\contact.html" />
+    <Content Include="zo\templates\zo\public\index.html" />
     <Content Include="zo\templates\zo\layout.html" />
     <Content Include="zo\templates\zo\login.html" />
     <Content Include="zo\templates\zo\loginpartial.html" />
     <Content Include="zo\generic\templates\action_message.html" />
-    <Content Include="zo\templates\old\password_reset.html" />
-    <Content Include="zo\templates\old\password_reset_request.html" />
+    <Content Include="zo\templates\zo\password\password_reset.html" />
+    <Content Include="zo\templates\zo\password\password_request.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">

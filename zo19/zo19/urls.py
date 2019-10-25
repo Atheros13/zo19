@@ -3,9 +3,10 @@ Definition of urls for zo19.
 """
 
 from datetime import datetime
-from django.urls import path
+from django.urls import include, path
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
+
 from zo import forms, views
 
 
@@ -30,4 +31,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
 
     path('admin/', admin.site.urls),
+
+    #path('user/', include('user.urls')),
+
 ]

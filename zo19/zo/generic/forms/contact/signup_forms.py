@@ -13,7 +13,7 @@ class UserSignUpContactForm(forms.ModelForm):
         model = UserSignUp
         fields = ['firstname', 'surname', 'phone', 'email', 'message']
 
-    def process_contact(self, *args, **kwargs):
+    def process_form(self, *args, **kwargs):
 
         model = self.save(commit=False)
 
@@ -37,7 +37,7 @@ class UserHubSignUpContactForm(forms.ModelForm):
                   'firstname', 'surname', 'phone', 'email',
                   'message']
 
-    def process_contact(self, *args, **kwargs):
+    def process_form(self, *args, **kwargs):
 
         model = self.save(commit=False)
 
@@ -60,7 +60,7 @@ class HubSignUpContactForm(forms.ModelForm):
         model = HubSignUp
         fields = ['hub_type', 'name', 'phone', 'email', 'town_city']
 
-    def process_contact(self, user=None):
+    def process_form(self, user=None):
         
         model = self.save(commit=False)
         model.requester = user

@@ -11,7 +11,7 @@ def home(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'zo/index.html',
+        'zo/public/index.html',
         {
             'title':'Home Page',
             'year':datetime.now().year,
@@ -23,7 +23,7 @@ def contact(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'zo/contact.html',
+        'zo/generic/contact.html',
         {
             'title':'Contact',
             'message':'Your contact page.',
@@ -36,7 +36,7 @@ def about(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'zo/about.html',
+        'zo/public/about.html',
         {
             'title':'About',
             'message':'Your application description page.',
