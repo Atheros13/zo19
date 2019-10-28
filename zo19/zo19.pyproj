@@ -46,8 +46,9 @@
     </Compile>
     <Compile Include="zo\generic\views\__init__.py" />
     <Compile Include="zo\generic\__init__.py" />
-    <Compile Include="zo\models\abstract\abstract - Copy.py" />
-    <Compile Include="zo\models\abstract\abstract.py" />
+    <Compile Include="zo\models\abstract\blank.py" />
+    <Compile Include="zo\models\abstract\person.py" />
+    <Compile Include="zo\models\abstract\place.py" />
     <Compile Include="zo\models\abstract\__init__.py" />
     <Compile Include="zo\models\gender.py" />
     <Compile Include="zo\models\grade.py">

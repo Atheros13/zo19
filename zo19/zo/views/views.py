@@ -5,18 +5,41 @@ Definition of views.
 from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpRequest
+from django.views import View
 
-def home(request):
-    """Renders the home page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'zo/public/index.html',
-        {
-            'title':'Home Page',
-            'year':datetime.now().year,
-        }
-    )
+class PublicHomeView(View):
+
+    template_name = 'zo/public/index.html'
+
+    def get(request, *args, **kwargs):
+        assert isinstance(request, HttpRequest)
+
+        return render(
+            request,
+            self.template_name,
+            {
+                'title':'Home Page',
+                'year':datetime.now().year,
+            }
+        )
+
+class PublicAboutView(View):
+
+    template_name = 'zo/public/about.html'
+
+    def get(request, *args, **kwargs):
+        """Renders the about page."""
+        assert isinstance(request, HttpRequest)
+        return render(
+            request,
+            self.template_name,
+            {
+                'title':'About',
+                'message':'Your application description page.',
+                'year':datetime.now().year,
+            }
+        )
+
 
 def contact(request):
     """Renders the contact page."""
@@ -31,15 +54,3 @@ def contact(request):
         }
     )
 
-def about(request):
-    """Renders the about page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'zo/public/about.html',
-        {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
-        }
-    )
