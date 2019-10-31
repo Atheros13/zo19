@@ -2,5 +2,5 @@
 
 """
 
-from .general_forms import *
-from .signup_forms import *
+from .general import *
+#from .signup import *

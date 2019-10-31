@@ -34,16 +34,15 @@
   <ItemGroup>
     <Compile Include="zo\forms\forms.py" />
     <Compile Include="zo\forms\password_forms.py" />
+    <Compile Include="zo\forms\signup\signup.py" />
+    <Compile Include="zo\forms\signup\__init__.py" />
     <Compile Include="zo\forms\__init__.py" />
-    <Compile Include="zo\generic\forms\contact\signup_forms.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="zo\generic\forms\contact\general_forms.py" />
+    <Compile Include="zo\generic\forms\contact\general.py" />
     <Compile Include="zo\generic\forms\contact\__init__.py" />
     <Compile Include="zo\generic\forms\__init__.py" />
-    <Compile Include="zo\generic\views\action_message_view.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="zo\generic\views\action_message.py" />
+    <Compile Include="zo\generic\views\contact.py" />
+    <Compile Include="zo\generic\views\password_request_view.py" />
     <Compile Include="zo\generic\views\__init__.py" />
     <Compile Include="zo\generic\__init__.py" />
     <Compile Include="zo\models\abstract\blank.py" />
@@ -60,7 +59,14 @@
     <Compile Include="zo\models\user.py" />
     <Compile Include="zo\models\__init__.py" />
     <Compile Include="zo\tests.py" />
-    <Compile Include="zo\views\views.py" />
+    <Compile Include="zo\urls\zo_admin.py" />
+    <Compile Include="zo\urls\user.py" />
+    <Compile Include="zo\urls\__init__.py" />
+    <Compile Include="zo\views\public\public.py" />
+    <Compile Include="zo\views\public\__init__.py" />
+    <Compile Include="zo\views\zo_admin\confirm_signup.py" />
+    <Compile Include="zo\views\user\__init__.py" />
+    <Compile Include="zo\views\zo_admin\__init__.py" />
     <Compile Include="zo\views\__init__.py" />
     <Compile Include="zo\__init__.py" />
     <Compile Include="zo\migrations\__init__.py" />
@@ -75,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="zo\" />
+    <Folder Include="zo\forms\signup\" />
     <Folder Include="zo\generic\forms\" />
     <Folder Include="zo\generic\forms\contact\" />
     <Folder Include="zo\generic\templates\" />
@@ -83,6 +90,7 @@
     <Folder Include="zo\forms\" />
     <Folder Include="zo\generic\" />
     <Folder Include="zo\models\abstract\" />
+    <Folder Include="zo\urls\" />
     <Folder Include="zo\templates\old\" />
     <Folder Include="zo\templates\zo\generic\" />
     <Folder Include="zo\templates\zo\public\" />
@@ -97,6 +105,9 @@
     <Folder Include="zo\templates\zo\" />
     <Folder Include="zo\models\" />
     <Folder Include="zo19\" />
+    <Folder Include="zo\views\zo_admin\" />
+    <Folder Include="zo\views\user\" />
+    <Folder Include="zo\views\public\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />

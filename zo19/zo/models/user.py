@@ -106,7 +106,7 @@ class UserPasswordRequest(models.Model):
     ''' '''
 
     email = models.EmailField()
-    user = models.OnToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def contact_user(self):
 

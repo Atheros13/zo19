@@ -1,37 +1,30 @@
-"""
-Definition of urls for zo19.
-"""
-
-from datetime import datetime
 from django.urls import include, path
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LogoutView as PublicLogoutView
 
-from zo import forms, views
+from zo.views import PublicHomeView, PublicAboutView
+from zo.views import PublicContactView, PublicSignUpView
+from zo.views import PublicLoginView
 
+from zo import urls
 
 urlpatterns = [
 
-    path('', views.PublicHomeView.as_view(), name='home'),
-    path('contact/', views.contact, name='contact'),
-    path('about/', views.PublicAboutView.as_view(), name='about'),
+    path('', PublicHomeView.as_view(), name='home'),
+    path('about/', PublicAboutView.as_view(), name='about'),
+    #path('faq/', PublicFAQView.as_view(), name='faq'),
+    path('contact/', PublicContactView.as_view(), name='contact'),
 
-    path('login/',
-         LoginView.as_view
-         (
-             template_name='zo/login.html',
-             authentication_form=forms.BootstrapAuthenticationForm,
-             extra_context=
-             {
-                 'title': 'Log in',
-                 'year' : datetime.now().year,
-             }
-         ),
-         name='login'),
-    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+    path('signup/', PublicSignUpView.as_view(), name='public_signup'),
+
+    path('login/', PublicLoginView.as_view(), name='login'),
+    path('logout/', PublicLogoutView.as_view(next_page='/'), name='logout'),
 
     path('admin/', admin.site.urls),
+    path('zo_admin/', include(urls.zo_admin)),
 
-    #path('user/', include('user.urls')),
+    path('user/', include('zo.urls.user')),
+    #path('hub/', include('hub.urls')),
+    #path('tournament', include('tournament.urls')),
 
 ]

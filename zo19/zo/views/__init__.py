@@ -1,1 +1,2 @@
-from .views import *
+from .public import *
+from .user import *

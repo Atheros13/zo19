@@ -2,7 +2,6 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail, BadHeaderError
 
-
 class GeneralContactForm(forms.Form):
 
     title = 'General'
@@ -14,7 +13,7 @@ class GeneralContactForm(forms.Form):
     phone = forms.CharField(label="Phone Number", max_length=30, required=False)
     message = forms.CharField(label='Message', widget=forms.Textarea(), required=True)
 
-    def process_contact(self, user=False, hub=False, tournament=False):
+    def process_form(self, user=False, hub=False, tournament=False):
         
         f = self.cleaned_data
 
@@ -33,7 +32,7 @@ class GeneralContactForm(forms.Form):
         
         send_mail(subject, message, email, ['info@zo-sports.com'])
 
-        return True, 'error message'
+        return True, []
 
 class GeneralUserContactForm(GeneralContactForm):
 
@@ -43,16 +42,12 @@ class GeneralUserContactForm(GeneralContactForm):
     # need to change name so it auto populates with user.__str__()
     name = forms.CharField(label='Name', max_length=30, required=True)
 
-    def process_contact(self, *args, **kwargs):
+    def process_form(self, *args, **kwargs):
 
-        return True, 'error message'
+        return True, []
 
 class TechnicalContactForm(GeneralContactForm):
 
     title = 'Technical'
     description = 'Click for technical issues, please include as much information as possible'
-
-    def process_contact(self, *args, **kwargs):
-
-        return True, 'error message'
 

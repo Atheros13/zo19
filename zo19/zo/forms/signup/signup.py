@@ -2,11 +2,11 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail, BadHeaderError
 
-from zo.models import UserSignUp, UserHubSignUp, HubSignUp
+from zo.models import User, UserSignUp, UserHubSignUp, HubSignUp
 
 class UserSignUpContactForm(forms.ModelForm):
 
-    title = 'Sign Up'
+    title = 'User Sign Up'
     description = 'Click to sign up as an authenticated user.'
 
     class Meta:
@@ -19,22 +19,25 @@ class UserSignUpContactForm(forms.ModelForm):
 
         # checks if 
         if CustomUser.objects.filter(email=model.email) or UserSignup.objects.filter(email=model.email) or HubUserSignup.objects.filter(email=model.email):
-            return False, 'error message'
+            return False, ['error message']
 
         model.save()
         email_message = 'User Only Signup\n\n'
-        email_message += 'https://112.109.84.57:8000/user/confirm_signup'
+        email_message += 'https://zo-sports.com/zo_admin/confirm_signup/user/%s' % model.id
 
         send_mail('User Signup', email_message, model.email, ['info@zo-sports.com'])
 
-        return True, ''
+        return True, []
 
 class UserHubSignUpContactForm(forms.ModelForm):
 
+    title = 'User & Hub Sign Up'
+    description = 'Click to sign up as an authenticated user and to create a new Hub.'
+
     class Meta():
         model = UserHubSignUp
-        fields = ['hub_type', 'hub_name', 'hub_phone', 'hub_address', 'hub_towncity',
-                  'firstname', 'surname', 'phone', 'email',
+        fields = ['firstname', 'surname', 'phone', 'email', #'hub_type', 
+                  'hub_name', 'hub_phone', 'hub_street', 'hub_towncity',
                   'message']
 
     def process_form(self, *args, **kwargs):
@@ -42,14 +45,15 @@ class UserHubSignUpContactForm(forms.ModelForm):
         model = self.save(commit=False)
 
         # checks if 
-        if CustomUser.objects.filter(email=model.email) or UserSignup.objects.filter(email=model.email) or HubUserSignup.objects.filter(email=model.email):
-            return False, 'error message'
+        if User.objects.filter(email=model.email) or UserSignUp.objects.filter(email=model.email) or UserHubSignUp.objects.filter(email=model.email):
+            return False, ['error message']
 
         model.save()
         email_message = 'User & Hub Signup\n\n'
-        email_message += 'https://112.109.84.57:8000/user/confirm_signup'
+        email_message += 'https://zo-sports.com/zo_admin/confirm_signup/user_hub/%s' % model.id
 
-        return True, ''
+        return True, []
+
 
 class HubSignUpContactForm(forms.ModelForm):
 
@@ -58,7 +62,8 @@ class HubSignUpContactForm(forms.ModelForm):
 
     class Meta:
         model = HubSignUp
-        fields = ['hub_type', 'name', 'phone', 'email', 'town_city']
+        fields = [#'hub_type',
+                    ]
 
     def process_form(self, user=None):
         
@@ -69,6 +74,7 @@ class HubSignUpContactForm(forms.ModelForm):
         message = '%s %s %s %s %s' % (model.hub_type, model.name, model.phone, model.email, model.town_city)
         message += '\n%s' % model.id
         message += '\n%s' % user.id
+        message += 'https://zo-sports.com/zo_admin/confirm_signup/hub/%s' % model.id
 
         send_mail('Hub Signup', message, user.email, ['info@zo-sports.com'])
 
