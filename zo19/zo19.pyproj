@@ -32,25 +32,26 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="zo\forms\forms.py" />
+    <Compile Include="zo\forms\generic\login.py" />
     <Compile Include="zo\forms\password_forms.py" />
-    <Compile Include="zo\forms\signup\signup.py" />
-    <Compile Include="zo\forms\signup\__init__.py" />
+    <Compile Include="zo\forms\contact\signup.py" />
+    <Compile Include="zo\forms\contact\__init__.py" />
+    <Compile Include="zo\forms\generic\__init__.py" />
     <Compile Include="zo\forms\__init__.py" />
-    <Compile Include="zo\generic\forms\contact\general.py" />
-    <Compile Include="zo\generic\forms\contact\__init__.py" />
-    <Compile Include="zo\generic\forms\__init__.py" />
-    <Compile Include="zo\generic\views\action_message.py" />
-    <Compile Include="zo\generic\views\contact.py" />
-    <Compile Include="zo\generic\views\password_request_view.py" />
-    <Compile Include="zo\generic\views\__init__.py" />
-    <Compile Include="zo\generic\__init__.py" />
-    <Compile Include="zo\models\abstract\blank.py" />
+    <Compile Include="zo\forms\generic\contact.py" />
+    <Compile Include="zo\models\person\__init__.py" />
+    <Compile Include="zo\views\generic\action_message.py" />
+    <Compile Include="zo\views\generic\contact.py" />
+    <Compile Include="zo\views\generic\password_request_view.py" />
+    <Compile Include="zo\views\generic\permission\permission.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="zo\views\generic\permission\__init__.py" />
     <Compile Include="zo\models\abstract\person.py" />
     <Compile Include="zo\models\abstract\place.py" />
     <Compile Include="zo\models\abstract\__init__.py" />
-    <Compile Include="zo\models\gender.py" />
-    <Compile Include="zo\models\grade.py">
+    <Compile Include="zo\models\person\gender.py" />
+    <Compile Include="zo\models\person\grade.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="zo\models\signup.py">
@@ -58,15 +59,26 @@
     </Compile>
     <Compile Include="zo\models\user.py" />
     <Compile Include="zo\models\__init__.py" />
+    <Compile Include="zo\templatetags\filters.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="zo\templatetags\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="zo\tests.py" />
-    <Compile Include="zo\urls\zo_admin.py" />
+    <Compile Include="zo\urls\confirm_signup.py" />
     <Compile Include="zo\urls\user.py" />
     <Compile Include="zo\urls\__init__.py" />
+    <Compile Include="zo\views\generic\__init__.py" />
     <Compile Include="zo\views\public\public.py" />
     <Compile Include="zo\views\public\__init__.py" />
-    <Compile Include="zo\views\zo_admin\confirm_signup.py" />
+    <Compile Include="zo\views\public\confirm_signup.py" />
+    <Compile Include="zo\views\user\hub.py" />
+    <Compile Include="zo\views\user\contact.py" />
+    <Compile Include="zo\views\user\settings.py" />
+    <Compile Include="zo\views\user\tournament.py" />
+    <Compile Include="zo\views\user\profile.py" />
     <Compile Include="zo\views\user\__init__.py" />
-    <Compile Include="zo\views\zo_admin\__init__.py" />
     <Compile Include="zo\views\__init__.py" />
     <Compile Include="zo\__init__.py" />
     <Compile Include="zo\migrations\__init__.py" />
@@ -81,15 +93,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="zo\" />
-    <Folder Include="zo\forms\signup\" />
-    <Folder Include="zo\generic\forms\" />
-    <Folder Include="zo\generic\forms\contact\" />
-    <Folder Include="zo\generic\templates\" />
-    <Folder Include="zo\generic\views\" />
+    <Folder Include="zo\forms\generic\" />
+    <Folder Include="zo\forms\contact\" />
+    <Folder Include="zo\models\person\" />
+    <Folder Include="zo\views\generic\permission\" />
     <Folder Include="zo\migrations\" />
     <Folder Include="zo\forms\" />
-    <Folder Include="zo\generic\" />
     <Folder Include="zo\models\abstract\" />
+    <Folder Include="zo\templatetags\" />
+    <Folder Include="zo\templates\zo\user\" />
     <Folder Include="zo\urls\" />
     <Folder Include="zo\templates\old\" />
     <Folder Include="zo\templates\zo\generic\" />
@@ -105,7 +117,7 @@
     <Folder Include="zo\templates\zo\" />
     <Folder Include="zo\models\" />
     <Folder Include="zo19\" />
-    <Folder Include="zo\views\zo_admin\" />
+    <Folder Include="zo\views\generic\" />
     <Folder Include="zo\views\user\" />
     <Folder Include="zo\views\public\" />
   </ItemGroup>
@@ -135,16 +147,22 @@
     <Content Include="zo\static\zo\scripts\_references.js" />
     <Content Include="zo\templates\old\login.html" />
     <Content Include="zo\templates\old\loginpartial.html" />
+    <Content Include="zo\templates\zo\generic\detailview_fields-draft.html" />
     <Content Include="zo\templates\zo\public\about.html" />
     <Content Include="zo\templates\zo\generic\action_message.html" />
     <Content Include="zo\templates\zo\generic\contact.html" />
     <Content Include="zo\templates\zo\public\index.html" />
-    <Content Include="zo\templates\zo\layout.html" />
+    <Content Include="zo\templates\zo\public\layout.html" />
     <Content Include="zo\templates\zo\login.html" />
     <Content Include="zo\templates\zo\loginpartial.html" />
-    <Content Include="zo\generic\templates\action_message.html" />
     <Content Include="zo\templates\zo\password\password_reset.html" />
     <Content Include="zo\templates\zo\password\password_request.html" />
+    <Content Include="zo\templates\zo\public\confirm_signup.html" />
+    <Content Include="zo\templates\zo\user\loginpartial.html" />
+    <Content Include="zo\templates\zo\generic\listview_links.html" />
+    <Content Include="zo\templates\zo\user\settings.html" />
+    <Content Include="zo\templates\zo\user\profile.html" />
+    <Content Include="zo\templates\zo\user\layout.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">

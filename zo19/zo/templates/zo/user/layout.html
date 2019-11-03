@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZO - {{ title }}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'zo/content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'zo/content/site.css' %}" />
+    <script src="{% static 'zo/scripts/modernizr-2.6.2.js' %}"></script>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="{% url 'user_profile' %}" class="navbar-brand">{{user}}</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'user_hubs' %}">Hubs</a></li>
+                    <li><a href="{% url 'user_tournaments' %}">Tournaments</a></li>
+                    <li><a href="{% url 'user_contact' %}">Contact</a></li>
+                    <li><a href="{% url 'user_settings' %}">Settings</a></li>
+                </ul>
+
+                {% include 'zo/user/loginpartial.html' %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+<br />
+{% block content %}{% endblock %}
+
+        <hr/>
+        <footer>
+            <p>&copy; {{ year }} - ZO-SPORTS</p>
+        </footer>
+    </div>
+
+    <script src="{% static 'zo/scripts/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'zo/scripts/bootstrap.js' %}"></script>
+    <script src="{% static 'zo/scripts/respond.js' %}"></script>
+    <script src="{% static 'zo/scripts/public.js' %}"></script>
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

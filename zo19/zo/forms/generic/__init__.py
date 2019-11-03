@@ -1,2 +1,2 @@
 from .contact import *
-from .generic import *
+from .login import *

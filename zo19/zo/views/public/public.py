@@ -4,8 +4,8 @@ from django.shortcuts import render
 from django.views import View
 
 from zo.forms import BootstrapAuthenticationForm
-from zo.forms.signup import UserSignUpContactForm, UserHubSignUpContactForm
-from zo.generic.views import GenericContactView
+from zo.forms import UserSignUpContactForm, UserHubSignUpContactForm
+from zo.views.generic import GenericContactView
 
 from datetime import datetime
 
@@ -55,10 +55,16 @@ class PublicLoginView(LoginView):
 
     template_name='zo/login.html'
     authentication_form=BootstrapAuthenticationForm
+    message = 'Enter your email and password to log in.'
 
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
         context['title'] = 'Log in'
         context['year'] = datetime.now().year
+        context['message'] = self.message
         return context
+
+class PublicRedirectLoginView(PublicLoginView):
+
+    message = 'Please log in.'

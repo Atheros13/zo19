@@ -1,1 +1,1 @@
-from .zo_admin import *
+from .confirm_signup import *

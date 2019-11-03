@@ -1,5 +1,0 @@
-"""
-
-"""
-
-from .contact import *

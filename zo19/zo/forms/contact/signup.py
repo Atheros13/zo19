@@ -18,12 +18,13 @@ class UserSignUpContactForm(forms.ModelForm):
         model = self.save(commit=False)
 
         # checks if 
-        if CustomUser.objects.filter(email=model.email) or UserSignup.objects.filter(email=model.email) or HubUserSignup.objects.filter(email=model.email):
-            return False, ['error message']
+        if User.objects.filter(email=model.email) or UserSignUp.objects.filter(email=model.email) or UserHubSignUp.objects.filter(email=model.email):
+            print('here')
+            return False, ['The email %s is already used, either for a User or in a sign up request that has not been checked yet.' % model.email]
 
         model.save()
         email_message = 'User Only Signup\n\n'
-        email_message += 'https://zo-sports.com/zo_admin/confirm_signup/user/%s' % model.id
+        email_message += 'https://zo-sports.com/confirm_signup/user/%s' % model.id
 
         send_mail('User Signup', email_message, model.email, ['info@zo-sports.com'])
 
@@ -46,11 +47,11 @@ class UserHubSignUpContactForm(forms.ModelForm):
 
         # checks if 
         if User.objects.filter(email=model.email) or UserSignUp.objects.filter(email=model.email) or UserHubSignUp.objects.filter(email=model.email):
-            return False, ['error message']
+            return False, ['The email %s is already used, either for a User or in a sign up request that has not been checked yet.' % model.email]
 
         model.save()
         email_message = 'User & Hub Signup\n\n'
-        email_message += 'https://zo-sports.com/zo_admin/confirm_signup/user_hub/%s' % model.id
+        email_message += 'https://zo-sports.com/confirm_signup/user-hub/%s' % model.id
 
         return True, []
 
@@ -74,10 +75,10 @@ class HubSignUpContactForm(forms.ModelForm):
         message = '%s %s %s %s %s' % (model.hub_type, model.name, model.phone, model.email, model.town_city)
         message += '\n%s' % model.id
         message += '\n%s' % user.id
-        message += 'https://zo-sports.com/zo_admin/confirm_signup/hub/%s' % model.id
+        message += 'https://zo-sports.com/confirm_signup/hub/%s' % model.id
 
         send_mail('Hub Signup', message, user.email, ['info@zo-sports.com'])
 
-        return True, 'error message'
+        return True, ['error message']
 
 

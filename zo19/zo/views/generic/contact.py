@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 
 from django.views import View
-from zo.generic.forms.contact import GeneralContactForm
+from zo.forms.generic import GeneralContactForm
 
 from datetime import datetime
 
@@ -14,7 +14,7 @@ class GenericContactView(View):
 
     title = 'General Contact'
     forms = [GeneralContactForm]
-    layout = 'zo'
+    layout = 'zo/public'
     message = []
     error_message = []
 
@@ -29,6 +29,7 @@ class GenericContactView(View):
                 'forms': self.forms,
                 'form': self.form,
                 'message':self.message,
+                'error_message': self.error_message,
                 'year':datetime.now().year,
             }
         )
@@ -50,6 +51,7 @@ class GenericContactView(View):
                 else:
                     self.error_message = []
 
+                self.form = f
                 return self.get()
 
     def contact_success(self, form):

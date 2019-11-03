@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings 
 
-from .user import UserName, UserTemporaryPassword
+from zo.models.user import User, UserName, UserTemporaryPassword
 
 class UserSignUp(models.Model):
 
@@ -16,7 +16,7 @@ class UserSignUp(models.Model):
     message = models.TextField(blank=True)
     is_staff = models.BooleanField(default=False)
 
-    def process_signup(self):
+    def process_signup(self, *args, user_only=True, **kwargs):
 
         ''' The primary method used in all inheritances to process each signup. '''
 
@@ -30,9 +30,9 @@ class UserSignUp(models.Model):
         and assign that password. Create a UserName with basic information and link to 
         the User. '''
 
-        self.password = settings.AUTH_USER_MODEL.objects.make_random_password()
+        self.password = User.objects.make_random_password()
 
-        self.user = settings.AUTH_USER_MODEL(email=self.email, is_staff=self.is_staff, phone_number=self.phone)
+        self.user = User(email=self.email, is_staff=self.is_staff, phone_number=self.phone)
         self.user.set_password(self.password)
         self.user.save()
 
@@ -55,7 +55,7 @@ class UserSignUp(models.Model):
         self.email_message += 'Username: %s\nTemporary Password: %s\n\n' % (self.email, self.password)
         self.email_message += 'When you first log in, you will be asked to set a new password '
         self.email_message += 'and complete some of your profile, before you are fully signed up.'
-        self.email_message += 'n\nWelcome to ZO-SPORTS.'
+        self.email_message += '\n\nWelcome to ZO-SPORTS.'
 
     def send_email(self):
 
@@ -75,12 +75,14 @@ class UserHubSignUp(UserSignUp):
     hub_street = models.CharField(max_length=50)
     hub_towncity = models.CharField(max_length=50)
 
-    def process_signup(self):
+    def process_signup(self, *args, user_only=False, **kwargs):
 
         ''' The primary method used in all inheritances to process each signup. '''
 
         self.create_user()
-        self.create_hub()
+        self.user_only = user_only
+        if not self.user_only:
+            self.create_hub()
         self.create_email_message()
         self.send_email()
 
@@ -104,9 +106,15 @@ class UserHubSignUp(UserSignUp):
         self.email_message += 'When you first log in, you will be asked to set a new password '
         self.email_message += 'and complete some of your profile, before you are fully signed up.'
 
-        self.email_message += '\n\n%s has also been added as a Hub in the ZO-SPORTS system ' % self.hub
-        self.email_message += 'and you have been listed as the Main Contact. '
-        self.email_message += 'You can access %s through the Hub tab when you are fully signed up.' % self.hub
+        if self.user_only:
+            self.email_message += '\n\nYour request for %s to be added as a Hub has been declined. ' % self.hub
+            self.email_message += 'This is usually because the Hub already exists or not enough information '
+            self.email_message += 'was provided. If you still think %s should be added as a Hub ' % self.hub
+            self.email_message += 'then you can send a Hub sign up request once you are fully signed up.'
+        else:
+            self.email_message += '\n\n%s has also been added as a Hub in the ZO-SPORTS system ' % self.hub
+            self.email_message += 'and you have been listed as the Main Contact. '
+            self.email_message += 'You can access %s through the Hub tab when you are fully signed up.' % self.hub
 
         self.email_message += '\n\nWelcome to ZO-SPORTS.'
 

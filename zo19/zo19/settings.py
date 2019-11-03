@@ -146,3 +146,4 @@ EMAIL_USE_TLS = True
 
 # Custom User 
 AUTH_USER_MODEL = 'zo.User'
+LOGIN_REDIRECT_URL = '/user/contact'

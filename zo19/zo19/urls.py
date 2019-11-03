@@ -4,7 +4,7 @@ from django.contrib.auth.views import LogoutView as PublicLogoutView
 
 from zo.views import PublicHomeView, PublicAboutView
 from zo.views import PublicContactView, PublicSignUpView
-from zo.views import PublicLoginView
+from zo.views import PublicLoginView, PublicRedirectLoginView
 
 from zo import urls
 
@@ -16,12 +16,13 @@ urlpatterns = [
     path('contact/', PublicContactView.as_view(), name='contact'),
 
     path('signup/', PublicSignUpView.as_view(), name='public_signup'),
+    path('confirm_signup/', include(urls.confirm_signup)),
 
     path('login/', PublicLoginView.as_view(), name='login'),
     path('logout/', PublicLogoutView.as_view(next_page='/'), name='logout'),
+    path('accounts/login/', PublicRedirectLoginView.as_view()),
 
     path('admin/', admin.site.urls),
-    path('zo_admin/', include(urls.zo_admin)),
 
     path('user/', include('zo.urls.user')),
     #path('hub/', include('hub.urls')),

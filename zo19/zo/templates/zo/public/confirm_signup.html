@@ -1,0 +1,17 @@
+{% extends layout %}
+
+{% block content %}
+
+{% load filters %}
+<h2>{{ object|classname }}</h2>
+<br />
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% for d in decisions %}
+        <input type="submit" name="{{d}}"value="{{d}}">
+    {% endfor %}
+</form>
+
+{% endblock %}

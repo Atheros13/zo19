@@ -6,7 +6,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.core.mail import send_mail, BadHeaderError
 from django.utils.translation import ugettext_lazy as _
 
-from .abstract import Address, NamePerson
+from zo.models.abstract import Address, NamePerson
 
 class UserManager(BaseUserManager):
     

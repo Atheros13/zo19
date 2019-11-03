@@ -1,4 +1,4 @@
-{% extends "zo/layout.html" %}
+{% extends "zo/public/layout.html" %}
 
 {% block content %}
 
@@ -8,7 +8,7 @@
         <section id="loginForm">
             <form action="." method="post" class="form-horizontal">
                 {% csrf_token %}
-                <h4>Enter your email and password to log in.</h4>
+                <h4>{{message}}</h4>
                 <hr />
                 <div class="form-group">
                     <label for="id_username" class="col-md-2 control-label">Email</label>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="hidden" name="next" value="/" />
+                        <input type="hidden" name="next" value="/user" />
                         <input type="submit" value="Log in" class="btn btn-default" />
                     </div>
                 </div>

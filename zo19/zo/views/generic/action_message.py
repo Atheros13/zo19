@@ -7,7 +7,7 @@ class ActionMessageView(View):
 
     '''  '''
 
-    layout = 'zo'
+    layout = 'zo/public'
     title = ''
     message = ''
 
