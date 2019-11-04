@@ -12,6 +12,8 @@ class UserSettingsView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
 
+        test = True
+
         if UserTemporaryPassword.objects.filter(user=self.request.user):
             temporary = True
         else:
