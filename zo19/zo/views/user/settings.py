@@ -19,6 +19,8 @@ class UserSettingsView(LoginRequiredMixin, SelectMultiFormView):
 
     def get(self, *args, **kwargs):
 
+        test = True
+
         if UserTemporaryPassword.objects.filter(user=self.request.user):
             message.append('You still have a temporary password, you need to change this before continuing')
             form = UserPasswordChangeForm
