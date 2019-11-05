@@ -1,28 +1,39 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
 from datetime import datetime
 
+from zo.forms.user import UserProfileUpdateForm, UserPasswordChangeForm, UserEmailChangeForm
+from zo.views.generic import SelectMultiFormView
 from zo.models import UserTemporaryPassword
 
-class UserSettingsView(LoginRequiredMixin, View):
+class UserSettingsView(LoginRequiredMixin, SelectMultiFormView):
 
-    template_name = 'zo/user/settings.html'
+    title = 'User Settings'
+    forms = [UserProfileUpdateForm, UserPasswordChangeForm, UserEmailChangeForm]
+    form_type = 'User Settings'
+    layout = 'zo/user'
+    message = []
+    error_message = []
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
 
         if UserTemporaryPassword.objects.filter(user=self.request.user):
-            temporary = True
-        else:
-            temporary = False
+            message.append('You still have a temporary password, you need to change this before continuing')
+            form = UserPasswordChangeForm
+
+        return super().get(*args, **kwargs)
+
+    def contact_success(self, form):
 
         return render(
-            request,
-            self.template_name,
+            self.request,
+            'zo/generic/action_message.html' ,
             {
-                'title':'Home Page',
+                'layout':'%s/layout.html' % self.layout,
+                'title':'Success',
+                'message':'Your %s form has been successfully updated' % form.title,
                 'year':datetime.now().year,
-                'temporary':temporary,
             }
         )

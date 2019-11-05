@@ -14,7 +14,7 @@ from datetime import datetime
 
 class UserContactView(LoginRequiredMixin, TempPasswordCheck, UserPassesTestMixin, GenericContactView):
 
-    template_name = 'zo/generic/contact.html'
+    template_name = 'zo/generic/select_multi_form.html'
     form = None
 
     title = 'Contact'

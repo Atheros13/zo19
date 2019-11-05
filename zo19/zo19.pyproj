@@ -33,14 +33,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="zo\forms\generic\login.py" />
-    <Compile Include="zo\forms\password_forms.py" />
+    <Compile Include="zo\forms\user\password_request.py" />
+    <Compile Include="zo\forms\user\settings.py" />
     <Compile Include="zo\forms\contact\signup.py" />
     <Compile Include="zo\forms\contact\__init__.py" />
     <Compile Include="zo\forms\generic\__init__.py" />
+    <Compile Include="zo\forms\user\__init__.py" />
     <Compile Include="zo\forms\__init__.py" />
     <Compile Include="zo\forms\generic\contact.py" />
     <Compile Include="zo\models\person\__init__.py" />
     <Compile Include="zo\views\generic\action_message.py" />
+    <Compile Include="zo\views\generic\select_multi_form.py" />
     <Compile Include="zo\views\generic\contact.py" />
     <Compile Include="zo\views\generic\password_request_view.py" />
     <Compile Include="zo\views\generic\permission\permission.py">
@@ -95,6 +98,7 @@
     <Folder Include="zo\" />
     <Folder Include="zo\forms\generic\" />
     <Folder Include="zo\forms\contact\" />
+    <Folder Include="zo\forms\user\" />
     <Folder Include="zo\models\person\" />
     <Folder Include="zo\views\generic\permission\" />
     <Folder Include="zo\migrations\" />
@@ -147,10 +151,10 @@
     <Content Include="zo\static\zo\scripts\_references.js" />
     <Content Include="zo\templates\old\login.html" />
     <Content Include="zo\templates\old\loginpartial.html" />
+    <Content Include="zo\templates\zo\generic\select_multi_form.html" />
     <Content Include="zo\templates\zo\generic\detailview_fields-draft.html" />
     <Content Include="zo\templates\zo\public\about.html" />
     <Content Include="zo\templates\zo\generic\action_message.html" />
-    <Content Include="zo\templates\zo\generic\contact.html" />
     <Content Include="zo\templates\zo\public\index.html" />
     <Content Include="zo\templates\zo\public\layout.html" />
     <Content Include="zo\templates\zo\login.html" />

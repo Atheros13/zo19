@@ -8,6 +8,7 @@ class UserSignUpContactForm(forms.ModelForm):
 
     title = 'User Sign Up'
     description = 'Click to sign up as an authenticated user.'
+    submit_text = 'Submit Request'
 
     class Meta:
         model = UserSignUp
@@ -34,6 +35,7 @@ class UserHubSignUpContactForm(forms.ModelForm):
 
     title = 'User & Hub Sign Up'
     description = 'Click to sign up as an authenticated user and to create a new Hub.'
+    submit_text = 'Submit Request'
 
     class Meta():
         model = UserHubSignUp
@@ -60,6 +62,7 @@ class HubSignUpContactForm(forms.ModelForm):
 
     title = 'Create Hub'
     description = "Click to request to create a new Hub, i.e. a School, Club etc. Please make sure the Hub doesn't already exist."
+    submit_text = 'Submit Request'
 
     class Meta:
         model = HubSignUp
