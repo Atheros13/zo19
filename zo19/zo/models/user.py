@@ -101,7 +101,7 @@ class UserTemporaryPassword(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
                                     on_delete=models.CASCADE, related_name='temporary_password')
 
-class UserPasswordRequest(models.Model):
+class UserPasswordReset(models.Model):
 
     ''' '''
 

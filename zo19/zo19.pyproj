@@ -32,8 +32,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="zo19\deploy.py" />
     <Compile Include="zo\forms\generic\login.py" />
-    <Compile Include="zo\forms\user\password_request.py" />
     <Compile Include="zo\forms\user\settings.py" />
     <Compile Include="zo\forms\contact\signup.py" />
     <Compile Include="zo\forms\contact\__init__.py" />
@@ -73,6 +73,7 @@
     <Compile Include="zo\urls\user.py" />
     <Compile Include="zo\urls\__init__.py" />
     <Compile Include="zo\views\generic\__init__.py" />
+    <Compile Include="zo\views\public\password_request.py" />
     <Compile Include="zo\views\public\public.py" />
     <Compile Include="zo\views\public\__init__.py" />
     <Compile Include="zo\views\public\confirm_signup.py" />
@@ -86,9 +87,6 @@
     <Compile Include="zo\__init__.py" />
     <Compile Include="zo\migrations\__init__.py" />
     <Compile Include="manage.py" />
-    <Compile Include="zo19\deploy.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="zo19\__init__.py" />
     <Compile Include="zo19\settings.py" />
     <Compile Include="zo19\urls.py" />
@@ -152,7 +150,7 @@
     <Content Include="zo\templates\old\login.html" />
     <Content Include="zo\templates\old\loginpartial.html" />
     <Content Include="zo\templates\zo\generic\select_multi_form.html" />
-    <Content Include="zo\templates\zo\generic\detailview_fields-draft.html" />
+    <Content Include="zo\templates\zo\generic\createview.html" />
     <Content Include="zo\templates\zo\public\about.html" />
     <Content Include="zo\templates\zo\generic\action_message.html" />
     <Content Include="zo\templates\zo\public\index.html" />
