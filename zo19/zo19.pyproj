@@ -34,6 +34,8 @@
   <ItemGroup>
     <Compile Include="zo19\deploy.py" />
     <Compile Include="zo\forms\generic\login.py" />
+    <Compile Include="zo\forms\public\password.py" />
+    <Compile Include="zo\forms\public\__init__.py" />
     <Compile Include="zo\forms\user\settings.py" />
     <Compile Include="zo\forms\contact\signup.py" />
     <Compile Include="zo\forms\contact\__init__.py" />
@@ -96,6 +98,7 @@
     <Folder Include="zo\" />
     <Folder Include="zo\forms\generic\" />
     <Folder Include="zo\forms\contact\" />
+    <Folder Include="zo\forms\public\" />
     <Folder Include="zo\forms\user\" />
     <Folder Include="zo\models\person\" />
     <Folder Include="zo\views\generic\permission\" />
