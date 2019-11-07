@@ -111,7 +111,7 @@ class UserPasswordReset(models.Model):
 
     def contact_user(self):
 
-        message = 'Hi %s,\n\n' % self.user.name
+        message = 'Hi %s,\n\n' % self.user.__str__()
         message += 'You have requested to reset the password to your ZO-SPORTS login. '
         message += 'The link to reset your password is below:\n\n'
         message += 'www.zo-sports.com/password/reset/%s/%s \n\n' % (self.id, self.random)

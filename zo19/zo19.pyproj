@@ -32,7 +32,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="zo19\deploy.py" />
+    <Compile Include="zo19\deploy.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="zo\forms\generic\login.py" />
     <Compile Include="zo\forms\public\password.py" />
     <Compile Include="zo\forms\public\__init__.py" />

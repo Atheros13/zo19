@@ -88,50 +88,77 @@ class PasswordResetView(FormView):
     title = 'Password Reset'
     layout = 'zo/public'
     submit_text = 'Reset'
-    message = ['Enter your new password.']
+    message = []
 
-    def get(self, request, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-
-        context['title'] = self.title 
-        context['layout'] = '%s/layout.html' % self.layout
-        context['year'] = datetime.now().year
-        context['submit_text'] = None
-        context['message'] = self.message
-
-        return context
+    def get(self, request, message=None, **kwargs):
 
         id = self.kwargs['id']
         random = self.kwargs['random']
 
         reset_check = UserPasswordReset.objects.filter(id=id, random=random)
         if reset_check:
-            user = reset_check[0].user
-            reset_check[0].delete()
+            user = reset_check[0].user.__str__()
 
-            context = super().get_context_data(**kwargs)
+            if message == None:
+                self.message = ['%s, enter your new password.' % user]
+            else:
+                self.message = [message]
 
-            context['user'] = user
+            return render(
+                self.request,
+                self.template_name,
+                {
+                    'layout':'%s/layout.html' % self.layout,
+                    'title':self.title,
+                    'message': self.message,
+                    'year':datetime.now().year,
+                    'form':PasswordResetForm, 
+                    'submit_text':self.submit_text,
+                    'year':datetime.now().year,
+                }
+            )
 
-            context['submit_text'] = self.submit_text
-            context['message'] = ['Enter your new password.']
-
-            return context
 
         else:
 
-            return self.post_redirect(title='Error',
-                                      message='''This link has no current password reset request. 
-                                      Please check the link, 
-                                      or request a new password reset, 
-                                      or use the general contact form to contact ZO-SPORTS.''')
+            return render(
+                self.request,
+                'zo/generic/action_message.html' ,
+                {
+                    'title':'Error',
+                    'message':['''This link has no current password reset request. 
+                    Please check the link, 
+                    or request a new password reset, 
+                    or use the general contact form to contact ZO-SPORTS.'''],
+                    'layout':'%s/layout.html' % self.layout,
+                    'submit_text':None,
+                    'year':datetime.now().year,
+                }
+            )
 
     def form_valid(self, form):
-    
-        return super().form_valid(form)
 
-    def post_redirect(self, title='', message=''):
+        id = self.kwargs['id']
+        random = self.kwargs['random']
+
+        reset = UserPasswordReset.objects.filter(id=id, random=random)[0]
+        user = reset.user
+
+        p1 = form.new_password
+        p2 = form.confirm_new_password
+
+        if p1 == p2:
+            reset.delete()
+            user.set_password(p1)
+            user.save()        
+            return self.post_redirect()
+
+        return self.get(self.request, message='Those passwords do not match')
+
+
+
+
+    def post_redirect(self):
 
         ''' '''
 
@@ -140,8 +167,8 @@ class PasswordResetView(FormView):
             'zo/generic/action_message.html' ,
             {
                 'layout':'%s/layout.html' % self.layout,
-                'title':title,
-                'message': message,
+                'title':'Success',
+                'message': 'Your password has been successfully changed',
                 'year':datetime.now().year,
             }
         )
