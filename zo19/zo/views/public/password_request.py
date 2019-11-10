@@ -126,10 +126,10 @@ class PasswordResetView(FormView):
                 'zo/generic/action_message.html' ,
                 {
                     'title':'Error',
-                    'message':['''This link has no current password reset request. 
+                    'message':'''This link has no current password reset request. 
                     Please check the link, 
                     or request a new password reset, 
-                    or use the general contact form to contact ZO-SPORTS.'''],
+                    or use the general contact form to contact ZO-SPORTS.''',
                     'layout':'%s/layout.html' % self.layout,
                     'submit_text':None,
                     'year':datetime.now().year,
@@ -144,8 +144,10 @@ class PasswordResetView(FormView):
         reset = UserPasswordReset.objects.filter(id=id, random=random)[0]
         user = reset.user
 
-        p1 = form.new_password
-        p2 = form.confirm_new_password
+        f = form.cleaned_data
+
+        p1 = f['new_password']
+        p2 = f['confirm_password']
 
         if p1 == p2:
             reset.delete()
@@ -153,7 +155,7 @@ class PasswordResetView(FormView):
             user.save()        
             return self.post_redirect()
 
-        return self.get(self.request, message='Those passwords do not match')
+        return self.get(self.request, message='Those passwords did not match')
 
 
 

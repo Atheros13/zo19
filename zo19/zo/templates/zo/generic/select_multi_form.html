@@ -27,6 +27,21 @@
 
             {% endfor %}
 
+            {% for e in extra_actions %}
+            <hr />
+            <div class="row">
+                <div class="col-md-5">
+                    <form actions="." method="post">
+                        {% csrf_token %}
+                        <input type="submit" name="Action Choice {{e.title}}" value="{{e.title}}" class="btn btn-default btn-contact" />
+                    </form>
+                </div>
+                <div class="col-md-7">
+                    <p>{{e.description}}</p>
+                </div>
+            </div>
+
+            {% endfor %}
         </div>
         <div class="col-md-1"></div>
         {% if form != None %}

@@ -42,6 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     ### IN ATTRIBUTES ###
     # name
+    # address
 
     ## OWN ATTRIBUTES
     email = models.EmailField(unique=True)

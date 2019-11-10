@@ -43,7 +43,7 @@ class GeneralUserContactForm(GeneralContactForm):
     # need to change name so it auto populates with user.__str__()
     name = forms.CharField(label='Name', max_length=30, required=True)
 
-    def process_form(self, *args, **kwargs):
+    def process_form(self, request, *args, **kwargs):
 
         return True, []
 
