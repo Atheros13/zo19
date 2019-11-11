@@ -36,7 +36,7 @@
     <Compile Include="hub\apps.py" />
     <Compile Include="hub\forms\__init__.py" />
     <Compile Include="hub\migrations\__init__.py" />
-    <Compile Include="hub\models\models.py" />
+    <Compile Include="hub\models\hub.py" />
     <Compile Include="hub\models\__init__.py" />
     <Compile Include="hub\tests.py" />
     <Compile Include="hub\urls\__init__.py" />
@@ -59,6 +59,7 @@
     <Compile Include="zo\forms\user\__init__.py" />
     <Compile Include="zo\forms\__init__.py" />
     <Compile Include="zo\forms\generic\contact.py" />
+    <Compile Include="zo\models\abstract\membership.py" />
     <Compile Include="zo\models\person\__init__.py" />
     <Compile Include="zo\views\generic\action_message.py" />
     <Compile Include="zo\views\generic\select_multi_form.py" />

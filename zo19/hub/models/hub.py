@@ -1,6 +1,8 @@
 from django.db import models
 
 from zo.models.person.grade import Grade
+from zo.models.abstract.membership import Membership
+from zo.models.abstract.person import NamePerson
 from zo.models.abstract.place import Address
 from zo.models.user import User
 
@@ -8,20 +10,23 @@ class Hub(models.Model):
 
     ''' '''
 
+    ## HUB SPECIFICATIONS
     # >>> hub_classification
     name = models.CharField(max_length=100)
 
+    ## HUB CONTACT DETAILS
     # >>> address
     phone_number = models.CharField(max_length=30, blank=True)
     email = models.EmailField(blank=True)
 
+    ## HUB PEOPLE
     main_contact = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='hubs_main_contact')
-
-
+    # >>> hub_members
 
     def __str__(self):
 
         return self.name
+
 
 class HubType(models.Model):
 
@@ -67,3 +72,33 @@ class HubAddress(Address):
     ''' '''
 
     hub = models.OneToOneField(Hub, on_delete=models.CASCADE, related_name='address')
+
+
+class HubMembership(Membership):
+
+    ''' '''
+
+    pass
+
+class HubMember(models.Model):
+
+    ''' '''
+
+    hub = models.ForeignKey(Hub, on_delete=models.CASCADE, related_name='hub_members')
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='hub_memberships')
+
+    # >>> name
+    phone_number = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(blank=True)
+
+    memberships = models.ManyToManyField(HubMembership, related_name='hub_members')
+
+    def __str__(self):
+
+        return self.name.__str__()
+
+class HubMemberName(NamePerson):
+
+    ''' '''
+
+    hub_member = models.OneToOneField(HubMember, on_delete=models.CASCADE, related_name='name')
