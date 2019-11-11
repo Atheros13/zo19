@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail, BadHeaderError
@@ -67,7 +68,6 @@ class UserProfileUpdateForm(forms.Form):
 
         return True
 
-
 class UserPasswordChangeForm(forms.Form):
     
     title = 'Change Password'
@@ -88,7 +88,27 @@ class UserPasswordChangeForm(forms.Form):
                                    'placeholder':'Confirm New Password'}))
 
     def process_form(self, request, *args, **kwargs):
+        
+        user = request.user
 
+        if not user.check_password(self.cleaned_data['current_password']):
+            self.add_error('current_password', 'This password is incorrect')
+            return self
+
+        pw2 = ['new_password', 'confirm_password']
+        if self.cleaned_data[pw2[0]] != self.cleaned_data[pw2[1]]:
+            self.add_error('new_password', 'Passwords do not match')
+            self.add_error('confirm_password', 'Passwords do not match')
+            return self
+        else:
+            if user.check_password(self.cleaned_data[pw2[0]]):
+                self.add_error(None, 'The new password is the same as your current one.')
+                return self
+        
+        user.set_password(self.cleaned_data[pw2[0]])    
+        user.save()
+
+        update_session_auth_hash(request, user)
         return True
 
 class UserEmailChangeForm(forms.Form):
@@ -111,5 +131,26 @@ class UserEmailChangeForm(forms.Form):
                                      'placeholder':'Confirm New Email'}))
 
     def process_form(self, request, *args, **kwargs):
+        
+        user = request.user
 
+        if not user.check_password(self.cleaned_data['current_password']):
+            self.add_error('current_password', 'This password is incorrect')
+            return self
+
+        em2 = ['new_email', 'confirm_email']
+        if self.cleaned_data[em2[0]] != self.cleaned_data[em2[1]]:
+            self.add_error('new_email', 'Email addresses do not match')
+            self.add_error('confirm_email', 'Email addresses do not match')
+            return self
+        else:
+            if user.email == self.cleaned_data[em2[0]]:
+                self.add_error(None, 'The new email is the same as your current one.')
+                return self
+            elif len(User.objects.filter(email=self.cleaned_data[em2[0]])) > 0:
+                self.add_error(None, 'That email is already registered with another User.')
+                return self
+
+        user.email = self.cleaned_data[em2[0]]
+        user.save()
         return True

@@ -14,7 +14,6 @@ class SelectMultiFormView(View):
     title = ''
     forms = []
     extra_actions = []
-    form_type = ''
     layout = ''
     message = []
 
@@ -46,12 +45,12 @@ class SelectMultiFormView(View):
                 if form.is_valid():
                     # returns True if process was successful or returns the form itself (with errors added)
                     form_check = form.process_form(self.request)
-                    if form_check:
+                    if form_check == True:
                         return self.success(f)
                     else:
                         self.form = form_check
                 
-            return self.get()
+        return self.get()
 
         # processes any buttons which do another action, i.e. redirect to a password change request page
         for e in self.extra_actions:
@@ -66,7 +65,7 @@ class SelectMultiFormView(View):
             {
                 'layout':'%s/layout.html' % self.layout,
                 'title':'Success',
-                'message':'Your %s %s form has been successfully sent' % (form.title, form.form_type),
+                'message':'Your %s form has been successfully sent' % form.title,
                 'year':datetime.now().year,
             }
         )

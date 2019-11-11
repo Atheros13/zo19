@@ -7,5 +7,4 @@ class GenericContactView(SelectMultiFormView):
 
     title = 'General Contact'
     forms = [GeneralContactForm]
-    form_type = 'Contact'
     layout = 'zo/public'

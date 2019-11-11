@@ -31,10 +31,10 @@ class AgeGrade(models.Model):
     ''' An age based filter, if open=True then all ages are included, 
     if under=True, then only ages that are under the date (that year) are included, 
     if under=False, then only ages over (not including) the date (that year) 
-    are included in the filter. '''
+    are included in the filter, if under=None then the grade is the age as of datetime.now(). '''
 
-    open = models.BooleanField(default=False)
-    under = models.BooleanField(default=True)
+    open = models.NullBooleanField(default=False)
+    under = models.NullBooleanField(default=True)
     age = models.PositiveIntegerField(blank=True)
     date = YearlessDateField(blank=True)
 
@@ -42,7 +42,15 @@ class AgeGrade(models.Model):
 
     def __str__(self):
 
-        pass
+        if self.open == True:
+            return 'Open'
+        if self.under == None:
+            return '%s Years Old' % self.age
+        elif self.under == True:
+            return 'Under %s' % self.age
+        else:
+            return 'Over %s' % self.age
+
 
 
 class RankGroupType(models.Model):
@@ -62,7 +70,7 @@ class RankGroup(models.Model):
     between the Ranks and can also assign a type to the Ranks i.e. "Age". '''
 
     name = models.CharField(max_length=30)
-    type = models.ForeignKey(RankGroupType, null=True, on_delete=models.SET_NULL, related_name='rank_groups')
+    types = models.ManyToManyField(RankGroupType, null=True, on_delete=models.SET_NULL, related_name='rank_groups')
 
     def __str__(self):
 
@@ -103,7 +111,7 @@ class Grade(models.Model):
     ''' A collection of one or more age, gender and/or rank filters. '''
 
     age = models.ForeignKey(AgeGrade, null=True, on_delete=models.CASCADE, related_name='grades')
-    genders = models.ManyToManyField(to='zo.Gender', related_name='grades')
+    genders = models.ManyToManyField(Gender, related_name='grades')
     ranks = models.ManyToManyField(Rank, related_name='grades')
 
     manager = GradeManager()

@@ -7,7 +7,6 @@ class GeneralContactForm(forms.Form):
     title = 'General'
     description = 'Click to send a general message'
     submit_text = 'Submit Form'
-    #auto_populate_user = False # 
 
     name = forms.CharField(label='Name', max_length=30, required=True)
     email = forms.EmailField(label="Email Address", required=True)
@@ -21,15 +20,16 @@ class GeneralContactForm(forms.Form):
         email = 'none@none.com'
         if f['email']:
             email = f['email']
-        elif user:
-            email = user.email
         
         subject = '%s Contact' % self.title
 
         message = 'Name: %s\n' % f['name']
         if f['phone']:
-            message += 'Phone: %s\n\n' % f['phone']
-        message += f['message']
+            message += 'Phone: %s\n' % f['phone']
+        message += 'Message: %s' % f['message']
+
+        if user != False:
+            message += '\n\nUser: %s\nPK: %s\nEmail: %s' % (user.__str__(), user.pk, user.email)
         
         send_mail(subject, message, email, ['info@zo-sports.com'])
 
@@ -40,14 +40,11 @@ class GeneralUserContactForm(GeneralContactForm):
     title = 'General'
     description = 'Click to send a general message'
 
-    # need to change name so it auto populates with user.__str__()
-    name = forms.CharField(label='Name', max_length=30, required=True)
-
     def process_form(self, request, *args, **kwargs):
 
-        return True
+        return super().process_form(user=request.user)
 
-class TechnicalContactForm(GeneralContactForm):
+class TechnicalContactForm(GeneralUserContactForm):
 
     title = 'Technical'
     description = 'Click for technical issues, please include as much information as possible'

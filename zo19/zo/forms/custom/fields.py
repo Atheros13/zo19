@@ -17,7 +17,6 @@ class CustomDateField(CharField):
     def clean(self, value, *args, **kwargs):
 
         date = super().clean(value)
-
         if date not in ['', None]:
             try:
                 date = datetime.strptime(date, '%d/%m/%Y')

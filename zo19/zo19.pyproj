@@ -32,6 +32,17 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="hub\admin.py" />
+    <Compile Include="hub\apps.py" />
+    <Compile Include="hub\forms\__init__.py" />
+    <Compile Include="hub\migrations\__init__.py" />
+    <Compile Include="hub\models\models.py" />
+    <Compile Include="hub\models\__init__.py" />
+    <Compile Include="hub\tests.py" />
+    <Compile Include="hub\urls\__init__.py" />
+    <Compile Include="hub\views\views.py" />
+    <Compile Include="hub\views\__init__.py" />
+    <Compile Include="hub\__init__.py" />
     <Compile Include="zo19\deploy.py">
       <SubType>Code</SubType>
     </Compile>
@@ -100,6 +111,14 @@
     <Compile Include="zo19\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="hub\" />
+    <Folder Include="hub\migrations\" />
+    <Folder Include="hub\models\" />
+    <Folder Include="hub\forms\" />
+    <Folder Include="hub\urls\" />
+    <Folder Include="hub\views\" />
+    <Folder Include="hub\templates\" />
+    <Folder Include="hub\templates\hub\" />
     <Folder Include="zo\" />
     <Folder Include="zo\forms\generic\" />
     <Folder Include="zo\forms\contact\" />
@@ -133,6 +152,7 @@
     <Folder Include="zo\views\public\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="hub\templates\hub\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="zo\static\zo\content\bootstrap.css" />
     <Content Include="zo\static\zo\content\bootstrap.min.css" />

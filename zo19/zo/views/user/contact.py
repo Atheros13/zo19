@@ -24,9 +24,8 @@ class UserContactView(LoginRequiredMixin, TempPasswordCheck, UserPassesTestMixin
 
     def test_func(self):
 
-        return TempPasswordCheck.test_func(self)
+        if HubSignUpContactForm not in self.forms:
+            if self.request.user.is_authorised:
+                self.forms.append(HubSignUpContactForm)
 
-        if self.request.user.is_authorised:
-            self.forms.append(HubSignUpContactForm)
-
-        return True
+        return super(UserContactView, self).test_func()

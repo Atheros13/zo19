@@ -25,7 +25,6 @@ class UserSettingsView(LoginRequiredMixin, SelectMultiFormView):
     title = 'User Settings'
     forms = [UserProfileUpdateForm, UserPasswordChangeForm, UserEmailChangeForm]
     extra_actions = [PasswordResetRedirectButton]
-    form_type = 'User Settings'
     layout = 'zo/user'
     message = []
 
