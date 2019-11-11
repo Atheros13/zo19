@@ -28,7 +28,6 @@ class UserSettingsView(LoginRequiredMixin, SelectMultiFormView):
     form_type = 'User Settings'
     layout = 'zo/user'
     message = []
-    error_message = []
 
     def get(self, *args, **kwargs):
 

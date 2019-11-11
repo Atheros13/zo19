@@ -20,8 +20,8 @@ class UserSignUpContactForm(forms.ModelForm):
 
         # checks if 
         if User.objects.filter(email=model.email) or UserSignUp.objects.filter(email=model.email) or UserHubSignUp.objects.filter(email=model.email):
-            print('here')
-            return False, ['The email %s is already used, either for a User or in a sign up request that has not been checked yet.' % model.email]
+            self.add_error('email', 'The email %s is already used, either for a User or in a sign up request that has not been checked yet.' % model.email)
+            return self
 
         model.save()
         email_message = 'User Only Signup\n\n'
@@ -29,7 +29,7 @@ class UserSignUpContactForm(forms.ModelForm):
 
         send_mail('User Signup', email_message, model.email, ['info@zo-sports.com'])
 
-        return True, []
+        return True
 
 class UserHubSignUpContactForm(forms.ModelForm):
 
@@ -49,13 +49,14 @@ class UserHubSignUpContactForm(forms.ModelForm):
 
         # checks if 
         if User.objects.filter(email=model.email) or UserSignUp.objects.filter(email=model.email) or UserHubSignUp.objects.filter(email=model.email):
-            return False, ['The email %s is already used, either for a User or in a sign up request that has not been checked yet.' % model.email]
+            self.add_error('email', 'The email %s is already used, either for a User or in a sign up request that has not been checked yet.' % model.email)
+            return self
 
         model.save()
         email_message = 'User & Hub Signup\n\n'
         email_message += 'https://zo-sports.com/confirm_signup/user-hub/%s' % model.id
 
-        return True, []
+        return True
 
 
 class HubSignUpContactForm(forms.ModelForm):
@@ -82,6 +83,6 @@ class HubSignUpContactForm(forms.ModelForm):
 
         send_mail('Hub Signup', message, user.email, ['info@zo-sports.com'])
 
-        return True, ['error message']
+        return True
 
 

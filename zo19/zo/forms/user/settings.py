@@ -65,7 +65,7 @@ class UserProfileUpdateForm(forms.Form):
         user.save()
         name.save()
 
-        return True, ['']
+        return True
 
 
 class UserPasswordChangeForm(forms.Form):
@@ -89,7 +89,7 @@ class UserPasswordChangeForm(forms.Form):
 
     def process_form(self, request, *args, **kwargs):
 
-        pass
+        return True
 
 class UserEmailChangeForm(forms.Form):
 
@@ -112,4 +112,4 @@ class UserEmailChangeForm(forms.Form):
 
     def process_form(self, request, *args, **kwargs):
 
-        pass
+        return True

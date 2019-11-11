@@ -21,7 +21,6 @@ class UserContactView(LoginRequiredMixin, TempPasswordCheck, UserPassesTestMixin
     forms = [GeneralUserContactForm, TechnicalContactForm]
     layout = 'zo/user'
     message = []
-    error_message = []
 
     def test_func(self):
 

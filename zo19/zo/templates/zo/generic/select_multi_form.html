@@ -46,12 +46,6 @@
         <div class="col-md-1"></div>
         {% if form != None %}
             <div class="col-md-6">
-                {% if error_message|length > 0 %}
-                    <h3>Error</h3>
-                {% endif %}
-                {% for error in error_message %}
-                    <p>{{error}}</p>
-                {% endfor %}
                 <h3>{{form.title}} Form</h3>
                 <form method="post">
                     {% csrf_token %}

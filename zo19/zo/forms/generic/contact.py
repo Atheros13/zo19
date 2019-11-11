@@ -33,7 +33,7 @@ class GeneralContactForm(forms.Form):
         
         send_mail(subject, message, email, ['info@zo-sports.com'])
 
-        return True, []
+        return True
 
 class GeneralUserContactForm(GeneralContactForm):
 
@@ -45,7 +45,7 @@ class GeneralUserContactForm(GeneralContactForm):
 
     def process_form(self, request, *args, **kwargs):
 
-        return True, []
+        return True
 
 class TechnicalContactForm(GeneralContactForm):
 
