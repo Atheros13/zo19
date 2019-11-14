@@ -4,25 +4,19 @@ from django.db import models
 class Membership(models.Model):
 
     ''' '''
-    membership_type = None # String() HubRole, HubGroup, Rank
-    membership = None # FK() to a specific membership model
-    membership_id_number = models.CharField(max_length=50, blank=True)
-    # member = model.OneToOneField(???Member, on_delete=models.CASCADE, related_name='???_membership')
-    # >>> membership_period
+    # <<< type i.e. role, rank, group 
+    id_number = models.CharField(max_length=50, blank=True)
+    # >>> membership_periods
 
     class Meta:
 
         abstract = True
 
-    def __str__(self):
-
-        return self.name
-
 class MembershipPeriod(models.Model):
 
     ''' '''
 
-    # membership = models.OneToOneField(???Membership, on_delete=models.CASCADE, related_name='membership_period')
+    membership = models.ForeignKey(Membership, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField(blank=True)
 

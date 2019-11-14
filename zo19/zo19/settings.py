@@ -44,6 +44,7 @@ ALLOWED_HOSTS = ['112.109.84.57', 'localhost']
 INSTALLED_APPS = [
 
     'zo',
+    'hub',
 
     'django.contrib.admin',
     'django.contrib.auth',

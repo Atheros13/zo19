@@ -1,8 +1,6 @@
 from django.db import models
 
 from zo.models.person.grade import Grade
-from zo.models.abstract.membership import Membership
-from zo.models.abstract.person import NamePerson
 from zo.models.abstract.place import Address
 from zo.models.user import User
 
@@ -20,27 +18,32 @@ class Hub(models.Model):
     email = models.EmailField(blank=True)
 
     ## HUB PEOPLE
-    main_contact = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='hubs_main_contact')
-    # >>> hub_members
+    # >>> hub_users
+    # >>> hub_roles (Main Contact is a Role)
+    # >>> hub_rank_groups >>> hub_rank_groups.hub_ranks
+    # >>> hub_groups
 
     def __str__(self):
 
         return self.name
 
 
+class HubTypeCategory(models.Model):
+
+    '''A broad category of Hubs, made up of HubTypes i.e. Education Provider or Club '''
+
+    category = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+
+        return self.category
+
 class HubType(models.Model):
 
-    ''' ??? Bit unsure here... concept thought needed '''
+    '''The specialised type of Hub, part of HubTypeCategory '''
 
-    HUBTYPE_CHOICES = [
-        ('School', 'School'),
-        ('Club', 'Club'),
-        ('Sports Club', 'Sports Club')
-        ('Community Organisation', 'Community Organisation'),
-        ]
-
-    type = models.CharField(max_length=50, choices=HUBTYPE_CHOICES) # i.e. School, 
-    #qualifier = models.CharField(max_length=50, blank=True) # i.e. Sports, Athletics, Secondary, Coeducational, Catholic
+    category = models.ForeignKey(HubTypeCategory, on_delete=models.CASCADE, related_name='types')
+    type = models.CharField(max_length=30)
 
     def __str__(self):
 
@@ -52,7 +55,7 @@ class HubClassification(models.Model):
     identical to other Hub.hub_classification's. Classification indicates any appropriate ages, genders and/or 
     ranks that this Hub is for i.e. a NZ Boys Secondary School may have a Grade made up of Male & Trans Male Gender's, 
     and Y9 - Y13 Ranks (inclusive). Each Hub can also declare what name they want to classify their 
-    Hub as i.e. Boys Secondary School'''
+    Hub as i.e. Boys Secondary School. '''
 
     name = models.CharField(max_length=50, blank=True)
 
@@ -72,33 +75,3 @@ class HubAddress(Address):
     ''' '''
 
     hub = models.OneToOneField(Hub, on_delete=models.CASCADE, related_name='address')
-
-
-class HubMembership(Membership):
-
-    ''' '''
-
-    pass
-
-class HubMember(models.Model):
-
-    ''' '''
-
-    hub = models.ForeignKey(Hub, on_delete=models.CASCADE, related_name='hub_members')
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='hub_memberships')
-
-    # >>> name
-    phone_number = models.CharField(max_length=30, blank=True)
-    email = models.EmailField(blank=True)
-
-    memberships = models.ManyToManyField(HubMembership, related_name='hub_members')
-
-    def __str__(self):
-
-        return self.name.__str__()
-
-class HubMemberName(NamePerson):
-
-    ''' '''
-
-    hub_member = models.OneToOneField(HubMember, on_delete=models.CASCADE, related_name='name')
