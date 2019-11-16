@@ -27,6 +27,26 @@ class Hub(models.Model):
 
         return self.name
 
+    def build_hub_type_roles(self):
+
+        from .hub_user import HubRole
+
+        generic_roles = [   
+            ['Main Contact', {'description': 'The main point of contact for the Hub.', 
+                            'required':None}],
+
+            ]
+
+        for i in generic_roles:
+            role = i[0]
+            description = i[1][description]
+            required = i[1][required]
+            hr = HubRole(name=role, hub=self, description=description)
+            if required != None:
+                required = HubRole.objects.filter(hub=self).filter(name=required)[0]
+                hr.required = required
+            hr.save()
+
 
 class HubTypeCategory(models.Model):
 
@@ -47,7 +67,7 @@ class HubType(models.Model):
 
     def __str__(self):
 
-        return self.type
+        return '%s - %s' % (self.category.__str__(), self.type)
 
 class HubClassification(models.Model):
 
@@ -74,4 +94,10 @@ class HubAddress(Address):
 
     ''' '''
 
+    #line1
+    #line2
+    #line3 
+    #town_city 
+    #postcode 
+    #country
     hub = models.OneToOneField(Hub, on_delete=models.CASCADE, related_name='address')

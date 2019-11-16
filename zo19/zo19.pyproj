@@ -39,6 +39,10 @@
     <Compile Include="hub\models\hub_user.py" />
     <Compile Include="hub\models\hub.py" />
     <Compile Include="hub\models\__init__.py" />
+    <Compile Include="hub\seed\hub.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="hub\seed\__init__.py" />
     <Compile Include="hub\tests.py" />
     <Compile Include="hub\urls\__init__.py" />
     <Compile Include="hub\views\views.py" />
@@ -64,6 +68,10 @@
     <Compile Include="zo\models\abstract\membership.py" />
     <Compile Include="zo\models\abstract\role.py" />
     <Compile Include="zo\models\person\__init__.py" />
+    <Compile Include="zo\seed\seed.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="zo\seed\__init__.py" />
     <Compile Include="zo\views\generic\action_message.py" />
     <Compile Include="zo\views\generic\select_multi_form.py" />
     <Compile Include="zo\views\generic\contact.py" />
@@ -119,6 +127,7 @@
     <Folder Include="hub\migrations\" />
     <Folder Include="hub\models\" />
     <Folder Include="hub\forms\" />
+    <Folder Include="hub\seed\" />
     <Folder Include="hub\urls\" />
     <Folder Include="hub\views\" />
     <Folder Include="hub\templates\" />
@@ -130,6 +139,7 @@
     <Folder Include="zo\forms\public\" />
     <Folder Include="zo\forms\user\" />
     <Folder Include="zo\models\person\" />
+    <Folder Include="zo\seed\" />
     <Folder Include="zo\views\generic\permission\" />
     <Folder Include="zo\migrations\" />
     <Folder Include="zo\forms\" />

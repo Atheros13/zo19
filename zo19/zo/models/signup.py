@@ -1,7 +1,11 @@
 from django.db import models
+from django.db.models import Q
 from django.conf import settings 
 
 from zo.models.user import User, UserName, UserTemporaryPassword
+from hub.models.hub import Hub, HubAddress, HubType, HubClassification
+from hub.models.hub_user import HubRole, HubRoleMembership, HubRoleMembershipPeriod
+from hub.seed.hub import SeedGenericHubRoles
 
 class UserSignUp(models.Model):
 
@@ -11,12 +15,12 @@ class UserSignUp(models.Model):
 
     firstname = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
-    phone = models.CharField(max_length=30)
+    phone_number = models.CharField(max_length=30)
     email = models.EmailField()
     message = models.TextField(blank=True)
     is_staff = models.BooleanField(default=False)
 
-    def process_signup(self, *args, user_only=True, **kwargs):
+    def process_signup(self, request, *args, **kwargs):
 
         ''' The primary method used in all inheritances to process each signup. '''
 
@@ -32,7 +36,7 @@ class UserSignUp(models.Model):
 
         self.password = User.objects.make_random_password()
 
-        self.user = User(email=self.email, is_staff=self.is_staff, phone_number=self.phone)
+        self.user = User(email=self.email, is_staff=self.is_staff, phone_number=self.phone_number)
         self.user.set_password(self.password)
         self.user.save()
 
@@ -69,20 +73,23 @@ class UserHubSignUp(UserSignUp):
     therefore the instance deleted) or accepted and the self.process_signup() method 
     will process the signup and email the User (and then the instance should be deleted). '''
 
-    #hub_type = models.ForeignKey(to='hub.HubType', on_delete=models.CASCADE)
     hub_name = models.CharField(max_length=30)
-    hub_phone = models.CharField(max_length=30)
+    hub_type = models.ForeignKey(HubType, null=True, on_delete=models.SET_NULL, related_name='user_hub_signup')
+    hub_phone_number = models.CharField(max_length=30)
     hub_street = models.CharField(max_length=50)
     hub_towncity = models.CharField(max_length=50)
 
-    def process_signup(self, *args, user_only=False, **kwargs):
+    user = False
+    hub_declined = False
+
+    def process_signup(self, request, hub_declined=False, *args, **kwargs):
 
         ''' The primary method used in all inheritances to process each signup. '''
 
+        self.hub_declined = hub_declined
+
         self.create_user()
-        self.user_only = user_only
-        if not self.user_only:
-            self.create_hub()
+        self.create_hub()
         self.create_email_message()
         self.send_email()
 
@@ -90,7 +97,36 @@ class UserHubSignUp(UserSignUp):
 
         ''' '''
 
-        self.hub = None
+        if self.hub_declined:
+            return
+
+        hub = Hub(name=self.hub_name, phone_number=self.hub_phone_number)
+        hub.save()
+        
+        hub_address = HubAddress(line1=self.hub_street, towncity=self.hub_towncity, hub=hub)
+        hub_address.save()
+        
+        hub_classification = HubClassification(hub=hub)
+        hub_classification.hub_types.add(self.hub_type)
+        hub_classification.save()
+
+        hub_user = HubUser(hub=hub, user=self.user)
+        hub_user.build_from_user_data()
+        hub_user.save()
+
+        hub_user_name = HubUserName(hub=hub)
+        hub_user_name.build_from_user_data(self.user)
+        hub_user_name.save()
+
+        # Create hub_type generic roles, and add hub_user as Main Contact
+        hub.build_hub_type_roles()
+
+        hub_role = HubRole.objects.filter(name='Main Contact').filter(hub=hub)[0]
+        hub_role_membership = HubRoleMembership(hub_user=hub_user, role=hub_role).save()
+
+        HubRoleMembershipPeriod(start_date=datetime.now(), end_date=None, 
+                                                     membership=hub_role_membership).save()
+
 
     def create_email_message(self):
 
@@ -106,15 +142,15 @@ class UserHubSignUp(UserSignUp):
         self.email_message += 'When you first log in, you will be asked to set a new password '
         self.email_message += 'and complete some of your profile, before you are fully signed up.'
 
-        if self.user_only:
-            self.email_message += '\n\nYour request for %s to be added as a Hub has been declined. ' % self.hub
+        if self.hub_declined:
+            self.email_message += '\n\nYour request for %s to be added as a Hub has been declined. ' % self.hub_name
             self.email_message += 'This is usually because the Hub already exists or not enough information '
-            self.email_message += 'was provided. If you still think %s should be added as a Hub ' % self.hub
+            self.email_message += 'was provided. If you still think %s should be added as a Hub ' % self.hub_name
             self.email_message += 'then you can send a Hub sign up request once you are fully signed up.'
         else:
-            self.email_message += '\n\n%s has also been added as a Hub in the ZO-SPORTS system ' % self.hub
+            self.email_message += '\n\n%s has also been added as a Hub in the ZO-SPORTS system ' % self.hub_name
             self.email_message += 'and you have been listed as the Main Contact. '
-            self.email_message += 'You can access %s through the Hub tab when you are fully signed up.' % self.hub
+            self.email_message += 'You can access %s through the Hub tab when you are fully signed up.' % self.hub_name
 
         self.email_message += '\n\nWelcome to ZO-SPORTS.'
 
@@ -127,10 +163,10 @@ class HubSignUp(UserHubSignUp):
 
     firstname = None
     surname = None
-    phone = None
+    phone_number = None
     is_staff = None
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def create_user(self):
 

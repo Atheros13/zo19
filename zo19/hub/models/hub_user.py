@@ -36,11 +36,26 @@ class HubUser(models.Model):
 
         return self.name.__str__()
 
+    def build_from_user_data(self):
+
+        if self.user.gender:
+            self.gender = self.user.gender
+        if self.user.dob:
+            self.dob = self.user.dob
+        if self.user.phone_number:
+            self.phone_number = self.user.phone_number
+        if self.user.email:
+            self.email = self.user.email
+
 class HubUserName(NamePerson):
 
     ''' '''
 
     hub_member = models.OneToOneField(HubUser, on_delete=models.CASCADE, related_name='name')
+
+    def build_from_user_data(self, user):
+
+        pass
 
 ### ROLE
 

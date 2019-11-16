@@ -35,9 +35,9 @@ class ConfirmUserSignUpView(UpdateView, StaffView):
         self.object = form.save()
 
         if self.request.POST.get('Accept User') or self.request.POST.get('Accept Only User'):
-            self.object.process_signup(user_only=True)
+            self.object.process_signup(self.request, hub_declined=True)
         elif self.request.POST.get('Accept User & Hub') or self.request.POST.get('Accept Hub'):
-            self.object.process_signup()
+            self.object.process_signup(self.request)
 
         self.object.delete()
         return self.post_redirect()

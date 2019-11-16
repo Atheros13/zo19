@@ -4,6 +4,13 @@ from django.core.mail import send_mail, BadHeaderError
 
 from zo.models import User, UserSignUp, UserHubSignUp, HubSignUp
 
+''' SignUp Contact Forms have the information required for a request. The process_form() method, 
+stored this information in a model i.e. UserHubSignUp and a notice of this requst is sent to info@zo-sports.com. 
+
+ZO-SPORTS can then manually check each request and decide to accept or decline them. If they are accepted, 
+the process_signup() method of the model is called, which creates a User and or Hub and associated models, 
+and then deletes itself. '''
+
 class UserSignUpContactForm(forms.ModelForm):
 
     title = 'User Sign Up'
@@ -12,13 +19,13 @@ class UserSignUpContactForm(forms.ModelForm):
 
     class Meta:
         model = UserSignUp
-        fields = ['firstname', 'surname', 'phone', 'email', 'message']
+        fields = ['firstname', 'surname', 'phone_number', 'email', 'message']
 
     def process_form(self, request, *args, **kwargs):
 
         model = self.save(commit=False)
 
-        # checks if 
+        # Error Check
         if User.objects.filter(email=model.email) or UserSignUp.objects.filter(email=model.email) or UserHubSignUp.objects.filter(email=model.email):
             self.add_error('email', 'The email %s is already used, either for a User or in a sign up request that has not been checked yet.' % model.email)
             return self
@@ -39,15 +46,15 @@ class UserHubSignUpContactForm(forms.ModelForm):
 
     class Meta():
         model = UserHubSignUp
-        fields = ['firstname', 'surname', 'phone', 'email', #'hub_type', 
-                  'hub_name', 'hub_phone', 'hub_street', 'hub_towncity',
+        fields = ['firstname', 'surname', 'phone_number', 'email',
+                  'hub_name', 'hub_type', 'hub_phone_number', 'hub_street', 'hub_towncity',
                   'message']
 
     def process_form(self, request, *args, **kwargs):
 
         model = self.save(commit=False)
 
-        # checks if 
+        # Error Check
         if User.objects.filter(email=model.email) or UserSignUp.objects.filter(email=model.email) or UserHubSignUp.objects.filter(email=model.email):
             self.add_error('email', 'The email %s is already used, either for a User or in a sign up request that has not been checked yet.' % model.email)
             return self
@@ -58,7 +65,6 @@ class UserHubSignUpContactForm(forms.ModelForm):
 
         return True
 
-
 class HubSignUpContactForm(forms.ModelForm):
 
     title = 'Create Hub'
@@ -67,18 +73,19 @@ class HubSignUpContactForm(forms.ModelForm):
 
     class Meta:
         model = HubSignUp
-        fields = [#'hub_type',
-                    ]
+        fields = ['hub_name', 'hub_type', 'hub_phone_number', 'hub_street', 'hub_towncity',
+                  'message']
 
-    def process_form(self, user=None):
+    def process_form(self, request):
         
+        ''' '''
+
+        user = request.user
         model = self.save(commit=False)
-        model.requester = user
+        model.user = user
         model.save()
 
-        message = '%s %s %s %s %s' % (model.hub_type, model.name, model.phone, model.email, model.town_city)
-        message += '\n%s' % model.id
-        message += '\n%s' % user.id
+        message = 'Hub Signup - Authorised User\n\n'
         message += 'https://zo-sports.com/confirm_signup/hub/%s' % model.id
 
         send_mail('Hub Signup', message, user.email, ['info@zo-sports.com'])
