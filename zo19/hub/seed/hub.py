@@ -7,8 +7,13 @@ class SeedGenericHubRoles():
 
     def __init__(self, hub, *args, **kwargs):
 
-        pass
+        self.hub = hub
 
+
+    def main_contact(self):
+
+        hub_role = HubRole(name="Main Contact", 
+                           hub=self.hub)
 
     def education_provider(self):
 

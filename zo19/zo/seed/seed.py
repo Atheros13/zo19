@@ -1,47 +1,98 @@
-''' '''
+'''  '''
 
 from zo.models.person.gender import Gender
 from zo.models.person.grade import AgeGrade, RankGroupType, RankGroup, Rank, Grade
 
+from datetime import timedelta, date
 
 class SeedPersonModels():
 
-    pass
+    def __init__(self, *args, **kwargs):
 
-genders = []
-age_grades = []
-ranks = []
+        self.genders = []
+        self.age_grades = []
+        self.ranks = []
 
-def seed_genders():
+        self.seed_genders()
+        self.seed_age_grades()
+        self.seed_ranks()
+        self.seed_grades()
 
-    gender_list = ['Female', 'Male', 'Non-Binary', 'Trans-Female', 'Trans-Male']
+    def seed_genders(self):
 
-    for g in gender_list:
-        gender_exists = Gender.objects.filter(gender=g)
+        gender_list = ['Female', 'Male', 'Non-Binary', 'Trans-Female', 'Trans-Male']
 
-        if len(gender_exists) > 0:
-            genders.append(gender_list[0])
+        for g in gender_list:
+            gender_exists = Gender.objects.filter(gender=g)
+
+            if len(gender_exists) > 0:
+                self.genders.append(gender_list[0])
+            else:
+                gender = Gender(gender=g)
+                gender.save()
+                self.genders.append(gender)
+
+    def seed_age_grades(self):
+
+        ''' '''
+
+        # open
+        open = AgeGrade.objects.filter(open=True)
+        if open:
+            open = open[0]
         else:
-            gender = Gender(gender=g)
-            gender.save()
-            genders.append(gender)
+            open = AgeGrade(open=True)
+            open.save()
+        self.age_grades.append(open)
 
-def seed_age_grades():
+        # create yearless_dates
+        yearless_dates = []
+        def daterange(start_date, end_date):
+            for n in range(int ((end_date - start_date).days)):
+                yield start_date + timedelta(n)
+        for single_date in daterange(date(2020, 1, 1), date(2021, 1, 1)):
+            yearless_dates.append(single_date.strftime("%m/%d"))
 
-    # open
+        # dateless age, under and over age with yearless_date
+        if len(AgeGrade.objects.filter(age=13)) == 0:
+            for a in range(0, 121):
+                ag = AgeGrade(age=a)
+                ag.save()
+                self.age_grades.append(ag)
 
-    # just age
+                for under in [True, False]:
+                    for date in yearless_dates:
+                        yless_ag = AgeGrade(age=a, under=under, date=date)
+                        yless_ag.save()
+                        self.age_grades.append(yless_ag)              
 
-    # under/over
+    def seed_ranks(self):
 
-    pass
+        '''  '''
 
-def seed_ranks():
+        rgt_age = RankGroupType.objects.filter(name='Age')
+        if len(rgt_age) == 0:
+            rgt_age = RankGroupType(name='Age', description='Rank Groups that have a general "age" aspect to their ranking.')
+        else:
+            rgt_age = rgt_age[0]
 
-    '''NZ School Year ranks. '''
+        rg_nz = RankGroup.objects.filter(name='NZ School Year Levels')
+        if len(rg_nz) == 0:
+            rg_nz = RankGroup(name='NZ School Year Levels',
+                                description='The NZ primary and secondary school year levels, generally for students aged around 5 - 18')                
+        else:
+            rg_nz = rg_nz[0]
+            rg_nz.types.add(rgt_age)
 
-    pass
+        for i in range(1,14):
 
-def seed_grades():
+            if Rank.objects.filter(name='NZ School Year Levels').filter(value=i):
+                continue
 
-    pass
+            name = 'Year %s' % i
+            value = i
+            Rank(name=name, rank_value=rank, rank_group=rg_nz).save()
+
+    def seed_grades(self):
+
+        pass

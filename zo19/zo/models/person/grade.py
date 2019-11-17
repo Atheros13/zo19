@@ -35,7 +35,7 @@ class AgeGrade(models.Model):
     are included in the filter, if under=None then the grade is the age as of datetime.now(). '''
 
     open = models.NullBooleanField(default=False)
-    under = models.NullBooleanField(default=True)
+    under = models.NullBooleanField(default=None)
     age = models.PositiveIntegerField(blank=True)
     date = YearlessDateField(blank=True)
 
@@ -59,11 +59,17 @@ class RankGroupType(BaseRankGroupType):
     ''' Categorises RankGroups i.e. "Age" is used for the NZ School Year Levels, 
     to indicate that these ranks are mostly determined by one's age. '''
 
+    # name
+    # description
+    pass
+
 class RankGroup(BaseRankGroup):
 
     ''' The name of a collection of Rank objects. This provides a link 
     between the Ranks and can also assign a type to the Ranks i.e. "Age". '''
 
+    # name
+    # description
     types = models.ManyToManyField(RankGroupType, related_name='rank_groups')
 
 class Rank(BaseRank):
@@ -72,6 +78,9 @@ class Rank(BaseRank):
     allows a Rank in a RankGroup to be ordered from lowest to highest. If rank_value is blank, 
     then Ranks should be ordered alphabetically. '''
 
+    # name
+    # description
+    # rank_value
     rank_group = models.ForeignKey(RankGroup, on_delete=models.CASCADE, related_name='ranks')
 
 
