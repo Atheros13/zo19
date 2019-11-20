@@ -13,6 +13,8 @@ class SeedPersonModels():
         self.age_grades = []
         self.ranks = []
 
+    def seed_all(self):
+
         self.seed_genders()
         self.seed_age_grades()
         self.seed_ranks()
@@ -20,7 +22,7 @@ class SeedPersonModels():
 
     def seed_genders(self):
 
-        gender_list = ['Female', 'Male', 'Non-Binary', 'Trans-Female', 'Trans-Male']
+        gender_list = ['Female', 'Male', 'Non-Binary']
 
         for g in gender_list:
             gender_exists = Gender.objects.filter(gender=g)

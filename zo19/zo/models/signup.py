@@ -4,7 +4,7 @@ from django.conf import settings
 
 from zo.models.user import User, UserName, UserTemporaryPassword
 from hub.models.hub import Hub, HubAddress, HubType, HubClassification
-from hub.models.hub_user import HubRole, HubRoleMembership, HubRoleMembershipPeriod
+from hub.models.hub_user import HubUser, HubRole, HubUserName, HubRoleMembership, HubRoleMembershipPeriod
 from hub.seed.hub import SeedGenericHubRoles
 
 class UserSignUp(models.Model):
@@ -95,7 +95,12 @@ class UserHubSignUp(UserSignUp):
 
     def create_hub(self):
 
-        ''' '''
+        ''' Creates a Hub, and assigns HubAddress and HubClassification objects.\
+        Creates a HubUser and uses the information from the self.user to complete 
+        any information, and then adds a HubUserName object. 
+        Finally, calls a hub method that creates all generic HubRoles, returns a 
+        reference to the 'Main Contact' HubRole and then creates a membership 
+        (and membership period) for the HubUser as 'Main Contact'. '''
 
         if self.hub_declined:
             return
@@ -107,25 +112,19 @@ class UserHubSignUp(UserSignUp):
         hub_address.save()
         
         hub_classification = HubClassification(hub=hub)
-        hub_classification.hub_types.add(self.hub_type)
+        hub_classification.hub_types = self.hub_type
         hub_classification.save()
 
+        # 
         hub_user = HubUser(hub=hub, user=self.user)
         hub_user.build_from_user_data()
         hub_user.save()
-
         hub_user_name = HubUserName(hub=hub)
         hub_user_name.build_from_user_data(self.user)
         hub_user_name.save()
 
-        # Create hub_type generic roles, and add hub_user as Main Contact
-        hub.build_hub_type_roles()
-
-        hub_role = HubRole.objects.filter(name='Main Contact').filter(hub=hub)[0]
-        hub_role_membership = HubRoleMembership(hub_user=hub_user, role=hub_role).save()
-
-        HubRoleMembershipPeriod(start_date=datetime.now(), end_date=None, 
-                                                     membership=hub_role_membership).save()
+        #
+        hub.build_hub_type_roles().main_contact.create_membership(self)
 
 
     def create_email_message(self):

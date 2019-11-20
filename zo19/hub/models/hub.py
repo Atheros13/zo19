@@ -27,26 +27,14 @@ class Hub(models.Model):
 
         return self.name
 
-    def build_hub_type_roles(self):
+    def build_hub_type_roles(self, seed=False):
 
-        from .hub_user import HubRole
+        '''Seed the database with HubRole objects and return the Main Contact HubRole. '''
 
-        generic_roles = [   
-            ['Main Contact', {'description': 'The main point of contact for the Hub.', 
-                            'required':None}],
+        from hub.seed.hub import SeedGenericHubRoles
 
-            ]
-
-        for i in generic_roles:
-            role = i[0]
-            description = i[1][description]
-            required = i[1][required]
-            hr = HubRole(name=role, hub=self, description=description)
-            if required != None:
-                required = HubRole.objects.filter(hub=self).filter(name=required)[0]
-                hr.required = required
-            hr.save()
-
+        seed = SeedGenericHubRoles(self, hub_category=self.hub_classification.hub_type.category.__str__())
+        return seed.main_contact
 
 class HubTypeCategory(models.Model):
 
@@ -80,7 +68,7 @@ class HubClassification(models.Model):
     name = models.CharField(max_length=50, blank=True)
 
     hub = models.OneToOneField(Hub, on_delete=models.CASCADE, related_name='hub_classification')
-    hub_types = models.ManyToManyField(HubType, related_name='hub_classification')
+    hub_type = models.ForeignKey(HubType, null=True, on_delete=models.SET_NULL, related_name='hub_classification')
     grade = models.ForeignKey(Grade, null=True, on_delete=models.SET_NULL, related_name='hub_classifications')
 
     def __str__(self):

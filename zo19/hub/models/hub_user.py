@@ -59,27 +59,12 @@ class HubUserName(NamePerson):
 
 ### ROLE
 
-class HubRole(Role):
-
-    ''' A position/status/job etc that a HubUser may have in the Hub. 
-    This could be Teacher or Student for a school, or Club Member, Treasurer for a Club.
-    Part of the Hub creation stage is to automatically create a number of expected HubRoles. 
-    
-    Some HubRoles require another HubUser to have a current HubRoleMembershipPeriod in a specific HubRole, 
-    i.e. a Parent HubRole, requires a linked HubUser that has a current Student HubRole. '''
-
-    # name
-    # description
-    # >>> memberships
-    hub = models.ForeignKey(Hub, on_delete=models.CASCADE, related_name='hub_roles')
-    requisite_role = models.ForeignKey('self', null=True, on_delete=models.CASCADE, related_name='requisite_roles')
-
 class HubRoleMembership(Membership):
 
     ''' '''
 
     hub_user = models.ForeignKey(HubUser, on_delete=models.CASCADE, related_name='role_memberships')
-    role = models.ForeignKey(HubRole, on_delete=models.CASCADE, related_name='memberships')
+    role = models.ForeignKey('HubRole', on_delete=models.CASCADE, related_name='memberships')
     # id_number (not to be confused with self.id)
     # >>> membership_periods
     requisite_users = models.ManyToManyField(HubUser, related_name='requisite_role_memberships')
@@ -121,6 +106,31 @@ class HubRoleMembershipPeriod(MembershipPeriod):
     def __init__(self, *args, **kwargs):
 
         pass
+
+class HubRole(Role):
+
+    ''' A position/status/job etc that a HubUser may have in the Hub. 
+    This could be Teacher or Student for a school, or Club Member, Treasurer for a Club.
+    Part of the Hub creation stage is to automatically create a number of expected HubRoles. 
+    
+    Some HubRoles require another HubUser to have a current HubRoleMembershipPeriod in a specific HubRole, 
+    i.e. a Parent HubRole, requires a linked HubUser that has a current Student HubRole. '''
+
+    # name
+    # description
+    # >>> memberships
+    hub = models.ForeignKey(Hub, on_delete=models.CASCADE, related_name='hub_roles')
+    requisite_role = models.ForeignKey('self', null=True, on_delete=models.CASCADE, related_name='requisite_roles')
+
+    def create_membership(self, hub_user, id_number='', requisite_users=[], start_date=datetime.now(), end_date=''):
+
+        membership = HubRoleMembership(hub_user=hub_user, role=self, id_number=id_number)
+        for user in requisite_users:
+            membership.requisite_users.add(user)
+        membership.save()
+
+        period = HubRoleMembershipPeriod(start_date=start_date, end_date=end_date, membership=self)
+        period.save()
 
 ### RANK
 
