@@ -5,7 +5,7 @@ from django.conf import settings
 from zo.models.user import User, UserName, UserTemporaryPassword
 from hub.models.hub import Hub, HubAddress, HubType, HubClassification
 from hub.models.hub_user import HubUser, HubRole, HubUserName, HubRoleMembership, HubRoleMembershipPeriod
-from hub.seed.hub import SeedGenericHubRoles
+from hub.seed.hub_roles import SeedGenericHubRoles
 
 class UserSignUp(models.Model):
 

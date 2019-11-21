@@ -8,7 +8,7 @@ class SeedGenericHubRoles():
     def __init__(self, hub, *args, hub_category=None, **kwargs):
 
         self.hub = hub
-        self.role_data = self.build_role_data()
+        self.data = self.build_data()
 
         if hub_category != None:
             if hub_category == 'Education Provider':
@@ -16,7 +16,7 @@ class SeedGenericHubRoles():
             elif hub_category == 'Club':
                 self.seed_club()
 
-    def build_role_data(self):
+    def build_data(self):
 
         ''' '''
 
@@ -47,7 +47,7 @@ class SeedGenericHubRoles():
 
         hub_role = HubRole(name=name, description=description, hub=hub)
         if requisite_role != None:
-            hub_role.requisite_role - requisite_role
+            hub_role.requisite_role = requisite_role
         hub_role.save()
 
         return hub_role
@@ -64,7 +64,7 @@ class SeedGenericHubRoles():
 
         ''' Create and return the Main Contact HubRole. '''
 
-        self.main_contact = self.create_role('Main Contact', self.role_data['Main Contact'])
+        self.main_contact = self.create_role('Main Contact', self.data['Main Contact'])
 
     def seed_education_provider(self):
 
@@ -73,12 +73,12 @@ class SeedGenericHubRoles():
 
         self.seed_main_contact()
         for role in ['Teacher', 'Staff']:
-            self.create_role(role, self.role_data[role])
+            self.create_role(role, self.data[role])
 
-        student = self.create_role('Student', self.role_data['Student'])
+        student = self.create_role('Student', self.data['Student'])
         roles = []
         for role in ['Parent', 'Family']:
-            roles.append([role, self.role_data[role]])
+            roles.append([role, self.data[role]])
         self.create_requisite_roles(roles, student)
 
     def seed_club(self):
@@ -87,10 +87,10 @@ class SeedGenericHubRoles():
 
         self.seed_main_contact()
 
-        member = self.create_role('Member', self.role_data['Member'])
+        member = self.create_role('Member', self.data['Member'])
         roles = []
         for role in ['Family']:
-            roles.append([role, self.role_data[role]])
+            roles.append([role, self.data[role]])
         self.create_requisite_roles(roles, member)        
 
 

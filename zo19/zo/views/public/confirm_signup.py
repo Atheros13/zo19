@@ -14,7 +14,7 @@ class ConfirmUserSignUpView(UpdateView, StaffView):
 
     model = UserSignUp
     template_name = 'zo/public/confirm_signup.html'
-    fields = ['firstname', 'surname', 'phone', 'email', 'message', 'is_staff']
+    fields = ['firstname', 'surname', 'phone_number', 'email', 'message', 'is_staff']
 
     decisions = ['Decline', 'Accept User']
     layout = 'zo/public'
@@ -66,10 +66,15 @@ class ConfirmUserSignUpView(UpdateView, StaffView):
 class ConfirmUserHubSignUpView(ConfirmUserSignUpView):
 
     model = UserHubSignUp
-    decisions = ['Decline', 'Accept Only User', 'Accept User & Hub']
+    fields = ['firstname', 'surname', 'phone_number', 'email', 
+              'hub_name', 'hub_type', 'hub_phone_number', 'hub_street', 'hub_towncity',
+              'message', 'is_staff']
+    decisions = ['Decline', 'Decline & Email', 'Accept Only User', 'Accept User & Hub']
 
-class ConfirmHubSignUpView(ConfirmUserSignUpView):
+class ConfirmHubSignUpView(ConfirmUserHubSignUpView):
 
     model = HubSignUp
-    decisions = ['Decline', 'Accept Hub']
-    layout = 'user'
+    decisions = ['Decline', 'Decline & Email', 'Accept Hub']
+    fields = ['user',
+                  'hub_name', 'hub_type', 'hub_phone_number', 'hub_street', 'hub_towncity',
+                  'message']

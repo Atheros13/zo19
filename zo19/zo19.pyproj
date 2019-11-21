@@ -39,7 +39,8 @@
     <Compile Include="hub\models\hub_user.py" />
     <Compile Include="hub\models\hub.py" />
     <Compile Include="hub\models\__init__.py" />
-    <Compile Include="hub\seed\hub.py">
+    <Compile Include="hub\seed\hub_types.py" />
+    <Compile Include="hub\seed\hub_roles.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="hub\seed\__init__.py" />
@@ -68,7 +69,7 @@
     <Compile Include="zo\models\abstract\membership.py" />
     <Compile Include="zo\models\abstract\role.py" />
     <Compile Include="zo\models\person\__init__.py" />
-    <Compile Include="zo\seed\seed.py">
+    <Compile Include="zo\seed\person.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="zo\seed\__init__.py" />
