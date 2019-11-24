@@ -108,24 +108,26 @@ class UserHubSignUp(UserSignUp):
         hub = Hub(name=self.hub_name, phone_number=self.hub_phone_number)
         hub.save()
         
-        hub_address = HubAddress(line1=self.hub_street, towncity=self.hub_towncity, hub=hub)
+        hub_address = HubAddress(line1=self.hub_street, town_city=self.hub_towncity, hub=hub)
         hub_address.save()
-        
+
         hub_classification = HubClassification(hub=hub)
-        hub_classification.hub_types = self.hub_type
+        hub_classification.hub_type = self.hub_type
         hub_classification.save()
 
-        # 
+        # create a hub_user wrapper for the user requesting
         hub_user = HubUser(hub=hub, user=self.user)
         hub_user.build_from_user_data()
         hub_user.save()
-        hub_user_name = HubUserName(hub=hub)
+
+        hub_user_name = HubUserName(hub_user=hub_user)
         hub_user_name.build_from_user_data(self.user)
         hub_user_name.save()
 
-        #
-        hub.build_hub_type_roles().main_contact.create_membership(self)
-
+        # Seed generic hub roles
+        seed = SeedGenericHubRoles(hub, hub_category=hub_classification.hub_type.category.__str__())
+        main_contact = seed.main_contact
+        main_contact.create_membership(hub_user)
 
     def create_email_message(self):
 
@@ -184,8 +186,8 @@ class HubSignUp(UserHubSignUp):
 
         self.email_message = 'Hi %s,\n\n' % self.firstname
 
-        self.email_message += '\n\nAs per your request, %s has been added as a Hub in the ZO-SPORTS system ' % self.hub
+        self.email_message += '\n\nAs per your request, %s has been added as a Hub in the ZO-SPORTS system ' % self.hub_name
         self.email_message += 'and you have been listed as the Main Contact. '
-        self.email_message += 'You can access %s through the Hub tab when you sign in.' % self.hub
+        self.email_message += 'You can access %s through the Hub tab when you sign in.' % self.hub_name
 
         self.email_message += '\n\nKind regards, ZO-SPORTS.'

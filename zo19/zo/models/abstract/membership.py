@@ -18,7 +18,7 @@ class MembershipPeriod(models.Model):
 
     membership = models.ForeignKey(Membership, on_delete=models.CASCADE)
     start_date = models.DateField()
-    end_date = models.DateField(blank=True)
+    end_date = models.DateField(null=True)
 
     class Meta:
 

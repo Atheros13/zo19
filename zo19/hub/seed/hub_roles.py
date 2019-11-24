@@ -16,6 +16,8 @@ class SeedGenericHubRoles():
             elif hub_category == 'Club':
                 self.seed_club()
 
+    ## BUILD
+
     def build_data(self):
 
         ''' '''
@@ -23,6 +25,7 @@ class SeedGenericHubRoles():
         data = {
             
             'Main Contact':'',
+            'Hub Admin':'',
 
             'Teacher':'',
             'Student':'',
@@ -36,6 +39,8 @@ class SeedGenericHubRoles():
             }
          
         return data
+
+    ## CREATE
 
     def create_role(self, name, description, hub=None, requisite_role=None):
 
@@ -52,18 +57,21 @@ class SeedGenericHubRoles():
 
         return hub_role
 
-    def create_requisite_roles(roles, requisite_role):
+    def create_requisite_roles(self, role_list, requisite_role):
 
         ''' Creates one or more HubRoles from a list of lists called role
         i.e. [[name, description]] and links it with a previously created requisite_role HubRole'''
 
-        for role in roles:
-            self.create_role(role[0], role[1], requisite_role=requisite_role)
+        for roles in role_list:
+            self.create_role(roles[0], roles[1], requisite_role=requisite_role)
 
-    def seed_main_contact(self):
+    ## SEED 
 
-        ''' Create and return the Main Contact HubRole. '''
+    def seed_main_contact_admin(self):
 
+        ''' Create Hub Admin and Create and return the Main Contact HubRole. '''
+
+        self.create_role('Hub Admin', self.data['Hub Admin'])
         self.main_contact = self.create_role('Main Contact', self.data['Main Contact'])
 
     def seed_education_provider(self):
@@ -71,26 +79,26 @@ class SeedGenericHubRoles():
         ''' Create the generic HubRoles for an Education Provider, including the roles which are 
         requisite linked to the Student role. '''
 
-        self.seed_main_contact()
+        self.seed_main_contact_admin()
         for role in ['Teacher', 'Staff']:
             self.create_role(role, self.data[role])
 
         student = self.create_role('Student', self.data['Student'])
-        roles = []
+        role_list = []
         for role in ['Parent', 'Family']:
-            roles.append([role, self.data[role]])
-        self.create_requisite_roles(roles, student)
+            role_list.append([role, self.data[role]])
+        self.create_requisite_roles(role_list, student)
 
     def seed_club(self):
 
         ''' Create the generic HubRoles for a Club. '''
 
-        self.seed_main_contact()
+        self.seed_main_contact_admin()
 
         member = self.create_role('Member', self.data['Member'])
-        roles = []
+        role_list = []
         for role in ['Family']:
-            roles.append([role, self.data[role]])
-        self.create_requisite_roles(roles, member)        
+            role_list.append([role, self.data[role]])
+        self.create_requisite_roles(role_list, member)        
 
 

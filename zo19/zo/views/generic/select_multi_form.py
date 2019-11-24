@@ -35,7 +35,7 @@ class SelectMultiFormView(View):
 
     def post(self, *args, **kwargs):
 
-        # checks 
+        # checks buttons that bring up forms
         for f in self.forms:
             if self.request.POST.get('Form Choice %s' % f.title):
                 self.form = f
@@ -49,13 +49,13 @@ class SelectMultiFormView(View):
                         return self.success(f)
                     else:
                         self.form = form_check
-                
-        return self.get()
 
         # processes any buttons which do another action, i.e. redirect to a password change request page
         for e in self.extra_actions:
             if self.request.POST.get('Action Choice %s' % e.title):
                 return e().process_action(self.request)
+       
+        return self.get()
 
     def success(self, form):
 

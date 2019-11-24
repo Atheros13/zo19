@@ -51,11 +51,15 @@ class HubUserName(NamePerson):
 
     ''' '''
 
-    hub_member = models.OneToOneField(HubUser, on_delete=models.CASCADE, related_name='name')
+    hub_user = models.OneToOneField(HubUser, on_delete=models.CASCADE, related_name='name')
 
     def build_from_user_data(self, user):
 
-        pass
+        name = user.name
+        self.firstname = name.firstname
+        self.middlenames = name.middlenames
+        self.surname = name.surname
+        self.preferred_name = name.preferred_name
 
 ### ROLE
 
@@ -68,13 +72,6 @@ class HubRoleMembership(Membership):
     # id_number (not to be confused with self.id)
     # >>> membership_periods
     requisite_users = models.ManyToManyField(HubUser, related_name='requisite_role_memberships')
-
-    def __init__(self, *args, **kwargs):
-
-        self.hub = self.hub_user.hub
-
-        if self.role.requisite_roll != None:
-            self.is_active_membership = self.check_requisite_membership()
 
     def check_requisite_membership(self):
 
@@ -103,10 +100,6 @@ class HubRoleMembershipPeriod(MembershipPeriod):
     # end_date
     membership = models.ForeignKey(HubRoleMembership, on_delete=models.CASCADE, related_name='membership_periods')
 
-    def __init__(self, *args, **kwargs):
-
-        pass
-
 class HubRole(Role):
 
     ''' A position/status/job etc that a HubUser may have in the Hub. 
@@ -122,14 +115,15 @@ class HubRole(Role):
     hub = models.ForeignKey(Hub, on_delete=models.CASCADE, related_name='hub_roles')
     requisite_role = models.ForeignKey('self', null=True, on_delete=models.CASCADE, related_name='requisite_roles')
 
-    def create_membership(self, hub_user, id_number='', requisite_users=[], start_date=datetime.now(), end_date=''):
+    def create_membership(self, hub_user, id_number='', requisite_users=[], start_date=datetime.now(), end_date=None):
 
         membership = HubRoleMembership(hub_user=hub_user, role=self, id_number=id_number)
+        membership.save()
         for user in requisite_users:
             membership.requisite_users.add(user)
         membership.save()
 
-        period = HubRoleMembershipPeriod(start_date=start_date, end_date=end_date, membership=self)
+        period = HubRoleMembershipPeriod(start_date=start_date, end_date=end_date, membership=membership)
         period.save()
 
 ### RANK
@@ -156,7 +150,7 @@ class HubRank(models.Model):
 
     # >>> memberships
 
-    def __init__(self, *args, **kwargs):
+    def build_data(self, *args, **kwargs):
 
         ''' Sets the name, description, rank_group, rank_value attributes based on whether the data is 
         derived from a Rank object or created in the HubRank itself. '''
@@ -179,16 +173,10 @@ class HubRank(models.Model):
 class HubRankMembership(Membership):
 
     ''' '''
-
-    hub_user = models.ForeignKey(HubUser, on_delete=models.CASCADE, related_name='rank_memberships')
-    rank = models.ForeignKey(HubRank, on_delete=models.CASCADE, related_name='memberships')
-
     # id_number (not to be confused with self.id)
     # >>> membership_periods
-
-    def __init__(self, *args, **kwargs):
-
-        self.hub = self.hub_user.hub
+    hub_user = models.ForeignKey(HubUser, on_delete=models.CASCADE, related_name='rank_memberships')
+    rank = models.ForeignKey(HubRank, on_delete=models.CASCADE, related_name='memberships')
 
 class HubRankMembershipPeriod(MembershipPeriod):
 
@@ -220,7 +208,6 @@ class HubGroup(models.Model):
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
 
-
 class HubGroupMembership(Membership):
 
     ''' '''
@@ -248,10 +235,6 @@ class HubGroupRank(BaseRank):
     # rank_value
     # >>> membership_periods
     rank_group = models.ForeignKey(HubGroup, on_delete=models.CASCADE, related_name='ranks')
-
-    def __init__(self, *args, **kwargs):
-
-        self.hub_group = self.rank_group
 
 class HubGroupRankMembershipPeriod(MembershipPeriod):
 

@@ -4,8 +4,9 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail, BadHeaderError
 
-from zo.models import Gender, User, UserName
-from zo.forms.custom.fields import CustomModelChoiceField, CustomDateField
+from zo.models.user import User, UserName
+from zo.models.person.gender import Gender
+from zo.forms.custom.fields import CustomDateField
 
 from datetime import datetime
 
@@ -22,7 +23,7 @@ class UserProfileUpdateForm(forms.Form):
 
     phone_number = forms.CharField(label=_('Phone Number'), required=False)
 
-    gender = CustomModelChoiceField(label=_('Gender'), model=Gender, required=False)
+    gender = forms.ModelChoiceField(label=_('Gender'), queryset=Gender.objects.all(), required=False)
     dob = CustomDateField(required=False)
 
     def prepopulate(self, user):
@@ -47,6 +48,7 @@ class UserProfileUpdateForm(forms.Form):
         if user.gender != None:
             fields['gender'] = user.gender.pk
 
+
         return fields
 
     def process_form(self, request, *args, **kwargs):
@@ -56,13 +58,11 @@ class UserProfileUpdateForm(forms.Form):
         for field in ['firstname', 'middlenames', 'surname', 'preferred_name']:
             value = self.cleaned_data[field]
             setattr(name, field, value)
-        for field in ['phone_number', 'gender', 'dob']:
+        for field in ['gender', 'phone_number', 'dob']:
             value = self.cleaned_data[field]
-            if value not in [None, '']:
-                if field == 'gender':
-                    value = Gender.objects.get(pk=value)
-                setattr(user, field, value)    
-        
+            print(value)
+            setattr(user, field, value)
+
         user.save()
         name.save()
 

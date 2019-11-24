@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth import login
 
 from zo.forms.public import PasswordResetForm
 from zo.views.generic import StaffView
@@ -152,7 +153,8 @@ class PasswordResetView(FormView):
         if p1 == p2:
             reset.delete()
             user.set_password(p1)
-            user.save()        
+            user.save()
+            login(self.request, user)
             return self.post_redirect()
 
         return self.get(self.request, message='Those passwords did not match')

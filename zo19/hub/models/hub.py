@@ -27,14 +27,15 @@ class Hub(models.Model):
 
         return self.name
 
-    def build_hub_type_roles(self, seed=False):
+    ## CREATE
 
-        '''Seed the database with HubRole objects and return the Main Contact HubRole. '''
+    def create_hub_user(self):
 
-        from hub.seed.hub import SeedGenericHubRoles
+        pass
 
-        seed = SeedGenericHubRoles(self, hub_category=self.hub_classification.hub_type.category.__str__())
-        return seed.main_contact
+    def create_hub_role(self, name, description, requisite):
+
+        pass
 
 class HubTypeCategory(models.Model):
 
