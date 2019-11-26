@@ -52,6 +52,9 @@
     <Compile Include="zo19\deploy.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="zo\admin.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="zo\forms\custom\fields.py">
       <SubType>Code</SubType>
     </Compile>
