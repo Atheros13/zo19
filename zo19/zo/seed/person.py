@@ -8,41 +8,38 @@ from datetime import timedelta, date
 
 class SeedPersonModels():
 
-    def __init__(self, *args, **kwargs):
-
-        self.genders = []
-        self.age_grades = []
-        self.ranks = []
-
     def seed_all(self):
 
         self.seed_genders()
         self.seed_age_grades()
-        self.seed_ranks()
+        self.seed_nz_school_ranks()
         self.seed_grades()
 
     def seed_genders(self):
 
+        ''' '''
+
+        if Gender.objects.all():
+            return
+
         gender_list = ['Female', 'Male', 'Non-Binary']
 
         for g in gender_list:
-            gender_exists = Gender.objects.filter(gender=g)
-
-            if len(gender_exists) > 0:
-                self.genders.append(gender_list[0])
+            if Gender.objects.filter(gender=g):
+                continue
             else:
-                gender = Gender(gender=g)
-                gender.save()
-                self.genders.append(gender)
+                Gender(gender=g).save()
 
     def seed_age_grades(self):
 
         ''' '''
 
+        if AgeGrade.objects.all():
+            return
+
         # open
-        open = AgeGrade.objects.filter(open=True)
-        if open:
-            open = open[0]
+        if AgeGrade.objects.filter(open=True):
+            pass
         else:
             open = AgeGrade(open=True)
             open.save()
@@ -61,8 +58,7 @@ class SeedPersonModels():
         for a in range(0, 121):
 
             if len(AgeGrade.objects.filter(age=a).filter(under=None)) == 0:
-                ag = AgeGrade(age=a)
-                ag.save()
+                AgeGrade(age=a, under=None).save()
 
             for under in [True, False]:
                 for date in yearless_dates:
@@ -70,12 +66,12 @@ class SeedPersonModels():
                         yless_ag = AgeGrade(age=a, under=under, date_day=date[0], date_month=date[1])
                         yless_ag.save()
                         
-        self.age_grades = AgeGrade.objects.all()
-        return
-
-    def seed_ranks(self):
+    def seed_nz_school_ranks(self):
 
         '''  '''
+
+        if Rank.objects.all():
+            return
 
         rgt_age = RankGroupType.objects.filter(name='Age')
         if len(rgt_age) == 0:
@@ -101,12 +97,22 @@ class SeedPersonModels():
             name = 'Year %s' % i
             Rank(name=name, rank_value=i, rank_group=rg_nz).save()
 
-        self.ranks = Rank.objects.all()
-
     def seed_grades(self):
 
         '''Genders can be multi, ranks can be multi 
         (though as all current ranks are age based, they will not occur with age_grades), 
         age_grades are only 1 '''
 
-        pass
+        genders = Gender.objects.all()
+        age_grades = AgeGrade.objects.all()
+        ranks = Rank.objects.all()
+
+        gender_combos =[(None)]
+        for g1 in genders:
+            gender_combos.append((g1))
+
+        def combine_genders(g):
+
+            pass
+
+        rank_combos = []

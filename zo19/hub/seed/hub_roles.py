@@ -45,7 +45,7 @@ class SeedGenericHubRoles():
     def create_role(self, name, description, hub=None, requisite_role=None):
 
         ''' Creates a HubRole object with the name, description and requisite_role (if included)
-        date. Saves the objects and returns it as well. '''
+        data. Saves the objects and returns it as well. '''
 
         if hub == None:
             hub = self.hub
