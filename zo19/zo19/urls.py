@@ -7,7 +7,9 @@ from zo.views import PublicContactView, PublicSignUpView
 from zo.views import PublicLoginView, PublicRedirectLoginView
 from zo.views import PasswordRequestView, PasswordResetView
 
-from zo import urls
+from zo import urls as zo_urls
+from hub import urls as hub_urls
+#from tournament import urls as tournament_urls
 
 urlpatterns = [
 
@@ -17,7 +19,7 @@ urlpatterns = [
     path('contact/', PublicContactView.as_view(), name='contact'),
 
     path('signup/', PublicSignUpView.as_view(), name='public_signup'),
-    path('confirm_signup/', include(urls.confirm_signup)),
+    path('confirm_signup/', include(zo_urls.confirm_signup)),
 
     path('login/', PublicLoginView.as_view(), name='login'),
     path('logout/', PublicLogoutView.as_view(next_page='/'), name='logout'),
@@ -27,8 +29,8 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('user/', include('zo.urls.user')),
-    #path('hub/', include('hub.urls')),
-    #path('tournament', include('tournament.urls')),
+    path('user/', include(zo_urls.user)),
+    path('hub/', include(hub_urls)),
+    #path('tournament', include(tournament_urls)),
 
 ]

@@ -1,1 +1,1 @@
-
+from .hub import HubView

@@ -107,12 +107,3 @@ class SeedPersonModels():
         age_grades = AgeGrade.objects.all()
         ranks = Rank.objects.all()
 
-        gender_combos =[(None)]
-        for g1 in genders:
-            gender_combos.append((g1))
-
-        def combine_genders(g):
-
-            pass
-
-        rank_combos = []

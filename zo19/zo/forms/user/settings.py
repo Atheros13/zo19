@@ -6,7 +6,7 @@ from django.core.mail import send_mail, BadHeaderError
 
 from zo.models.user import User, UserName
 from zo.models.person.gender import Gender
-from zo.forms.custom.fields import CustomDateField
+from zo.custom.form_fields import CustomDateField
 
 from datetime import datetime
 

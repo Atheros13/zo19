@@ -1,0 +1,11 @@
+{% extends "zo/user/layout.html" %}
+
+{% block content %}
+
+<h2>Settings</h2>
+{% if temporary == True %}
+    <p>You have a temporary password, you need to change this before you are fully signed up.</p>
+{% endif %}
+<p> Setting stuff goes here </p>
+
+{% endblock %}

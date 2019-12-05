@@ -27,6 +27,11 @@ class Hub(models.Model):
 
         return self.name
 
+    def url(self):
+
+        url_name = '-'.join(self.name.split())
+        return '/hub/%s/%s/' % (self.id, url_name)
+
     ## CREATE
 
     def create_hub_user(self):

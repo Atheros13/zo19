@@ -2,8 +2,15 @@
 
 {% block content %}
 
-<h2>List of Model Links</h2>
+<h2>{{title}}</h2>
 
 <p> {{message}} </p>
+<br/>
+
+<ul class="">
+{% for model in models %}
+    <li><a href="{{model.url}}">{{model.name}}</a></li>
+{% endfor %}
+</ul>
 
 {% endblock %}

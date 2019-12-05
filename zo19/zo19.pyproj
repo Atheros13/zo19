@@ -45,19 +45,45 @@
     </Compile>
     <Compile Include="hub\seed\__init__.py" />
     <Compile Include="hub\tests.py" />
+    <Compile Include="hub\urls\hub.py" />
     <Compile Include="hub\urls\__init__.py" />
-    <Compile Include="hub\views\views.py" />
+    <Compile Include="hub\views\hub.py" />
     <Compile Include="hub\views\__init__.py" />
     <Compile Include="hub\__init__.py" />
+    <Compile Include="tournament\admin.py" />
+    <Compile Include="tournament\apps.py" />
+    <Compile Include="tournament\forms\__init__.py" />
+    <Compile Include="tournament\migrations\__init__.py" />
+    <Compile Include="tournament\models\contest\contest_type\contest_type_race.py" />
+    <Compile Include="tournament\models\contest\contest.py" />
+    <Compile Include="tournament\models\contest\contest_type\__init__.py" />
+    <Compile Include="tournament\models\contest\__init__.py" />
+    <Compile Include="tournament\models\event\event.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tournament\models\event\tournament_event.py" />
+    <Compile Include="tournament\models\event\__init__.py" />
+    <Compile Include="tournament\models\tournament\tournament.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tournament\models\tournament\__init__.py" />
+    <Compile Include="tournament\models\__init__.py" />
+    <Compile Include="tournament\urls\__init__.py" />
+    <Compile Include="tournament\views\__init__.py" />
+    <Compile Include="tournament\__init__.py" />
     <Compile Include="zo19\deploy.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="zo\admin.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="zo\forms\custom\fields.py">
+    <Compile Include="zo\custom\form_fields.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="zo\custom\model_fields.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="zo\custom\model_fields\distancefield.py" />
     <Compile Include="zo\forms\generic\login.py" />
     <Compile Include="zo\forms\public\password.py" />
     <Compile Include="zo\forms\public\__init__.py" />
@@ -132,14 +158,30 @@
     <Folder Include="hub\models\" />
     <Folder Include="hub\forms\" />
     <Folder Include="hub\seed\" />
+    <Folder Include="hub\templates\hub\" />
+    <Folder Include="hub\templates\hub\generic\" />
+    <Folder Include="hub\templates\hub\hub\" />
     <Folder Include="hub\urls\" />
     <Folder Include="hub\views\" />
     <Folder Include="hub\templates\" />
-    <Folder Include="hub\templates\hub\" />
+    <Folder Include="tournament\" />
+    <Folder Include="tournament\migrations\" />
+    <Folder Include="tournament\models\" />
+    <Folder Include="tournament\forms\" />
+    <Folder Include="tournament\models\contest\" />
+    <Folder Include="tournament\models\contest\contest_type\" />
+    <Folder Include="tournament\models\event\" />
+    <Folder Include="tournament\models\tournament\" />
+    <Folder Include="tournament\seed\" />
+    <Folder Include="tournament\urls\" />
+    <Folder Include="tournament\views\" />
+    <Folder Include="tournament\templates\" />
+    <Folder Include="tournament\templates\tournament\" />
     <Folder Include="zo\" />
+    <Folder Include="zo\custom\model_fields\" />
     <Folder Include="zo\forms\generic\" />
     <Folder Include="zo\forms\contact\" />
-    <Folder Include="zo\forms\custom\" />
+    <Folder Include="zo\custom\" />
     <Folder Include="zo\forms\public\" />
     <Folder Include="zo\forms\user\" />
     <Folder Include="zo\models\person\" />
@@ -170,8 +212,12 @@
     <Folder Include="zo\views\public\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="hub\templates\hub\index.html" />
+    <Content Include="hub\templates\hub\hub\layout.html" />
+    <Content Include="hub\templates\hub\hub\loginpartial.html" />
+    <Content Include="hub\templates\hub\hub\index.html" />
+    <Content Include="hub\templates\hub\hub\settings.html" />
     <Content Include="requirements.txt" />
+    <Content Include="tournament\templates\tournament\index.html" />
     <Content Include="zo\static\zo\content\bootstrap.css" />
     <Content Include="zo\static\zo\content\bootstrap.min.css" />
     <Content Include="zo\static\zo\content\site.css" />
