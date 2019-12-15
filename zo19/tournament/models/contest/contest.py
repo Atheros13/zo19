@@ -11,8 +11,8 @@ class Contest(models.Model):
 
     content_type = models.ForeignKey(ContentType, null=True, on_delete=models.CASCADE, limit_choices_to=CONTENT_TYPE_CHOICES)
     object_id = models.PositiveIntegerField()
+    contest = GenericForeignKey('content_type', 'object_id') # contest_type ?
 
-    contest = GenericForeignKey('content_type', 'object_id')
     contests = models.ManyToManyField('self')
 
     def __str__(self):

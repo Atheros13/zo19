@@ -10,6 +10,8 @@ class ContestTypeRace(ContestType):
     distance_unit = DistanceUnitField()
     style = models.CharField(max_length=30, blank=True)
 
+
+
     def distance(self):
         if self.distance_value != '':
             if self.distance_unit not in ['', None]:
