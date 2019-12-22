@@ -57,7 +57,7 @@
     <Compile Include="tournament\models\contest\contest_type\contest_type_race.py" />
     <Compile Include="tournament\models\contest\contest.py" />
     <Compile Include="tournament\models\contest\contest_type\__init__.py" />
-    <Compile Include="tournament\models\contest\__init__.py" />
+    <Compile Include="tournament\models\contest\contest_instance\__init__.py" />
     <Compile Include="tournament\models\event\event.py">
       <SubType>Code</SubType>
     </Compile>
@@ -170,6 +170,7 @@
     <Folder Include="tournament\forms\" />
     <Folder Include="tournament\models\contest\" />
     <Folder Include="tournament\models\contest\contest_type\" />
+    <Folder Include="tournament\models\contest\contest_instance\" />
     <Folder Include="tournament\models\event\" />
     <Folder Include="tournament\models\tournament\" />
     <Folder Include="tournament\seed\" />

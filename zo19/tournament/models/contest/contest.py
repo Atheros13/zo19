@@ -13,11 +13,12 @@ class Contest(models.Model):
     object_id = models.PositiveIntegerField()
     contest = GenericForeignKey('content_type', 'object_id') # contest_type ?
 
+
     contests = models.ManyToManyField('self')
 
     def __str__(self):
-
-        pass
+    
+        return 'Contest Name'
 
 class ContestType(models.Model):
 
@@ -31,3 +32,6 @@ class ContestType(models.Model):
 
     def __str__(self):
         return self.__class__.__name__
+
+
+

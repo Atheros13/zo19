@@ -11,6 +11,10 @@ class TournamentEvent(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tournament_events')
 
 
+    def __str__(self):
 
+        return self.event.__str__()
 
-    pass
+    def build_tournament_event(self, *args, **kwargs):
+
+        pass
