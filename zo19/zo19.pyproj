@@ -54,6 +54,7 @@
     <Compile Include="tournament\apps.py" />
     <Compile Include="tournament\forms\__init__.py" />
     <Compile Include="tournament\migrations\__init__.py" />
+    <Compile Include="tournament\models\competitor\__init__.py" />
     <Compile Include="tournament\models\contest\contest_type\contest_type_race.py" />
     <Compile Include="tournament\models\contest\contest.py" />
     <Compile Include="tournament\models\contest\contest_type\__init__.py" />
@@ -83,7 +84,7 @@
     <Compile Include="zo\custom\model_fields.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="zo\custom\model_fields\distancefield.py" />
+    <Compile Include="zo\custom\model_fields_draft\distancefield.py" />
     <Compile Include="zo\forms\generic\login.py" />
     <Compile Include="zo\forms\public\password.py" />
     <Compile Include="zo\forms\public\__init__.py" />
@@ -172,6 +173,7 @@
     <Folder Include="tournament\models\contest\contest_type\" />
     <Folder Include="tournament\models\contest\contest_instance\" />
     <Folder Include="tournament\models\event\" />
+    <Folder Include="tournament\models\competitor\" />
     <Folder Include="tournament\models\tournament\" />
     <Folder Include="tournament\seed\" />
     <Folder Include="tournament\urls\" />
@@ -179,7 +181,7 @@
     <Folder Include="tournament\templates\" />
     <Folder Include="tournament\templates\tournament\" />
     <Folder Include="zo\" />
-    <Folder Include="zo\custom\model_fields\" />
+    <Folder Include="zo\custom\model_fields_draft\" />
     <Folder Include="zo\forms\generic\" />
     <Folder Include="zo\forms\contact\" />
     <Folder Include="zo\custom\" />

@@ -8,12 +8,12 @@ class ContestTypeRace(ContestType):
 
     distance_value = models.FloatField()
     distance_unit = DistanceUnitField()
-    style = models.CharField(max_length=30, blank=True)
-
-
+    
+    style = models.CharField(max_length=30, blank=True) # Sprint, Walk
 
     def distance(self):
-        if self.distance_value != '':
-            if self.distance_unit not in ['', None]:
-                return Distance('%s%s' % (self.distance_value, self.distance_unit))
-        return None
+
+        unit = self.distance_unit
+        value = self.distance_value
+
+        return DistanceUnitField().convert_to_distance(unit, value)

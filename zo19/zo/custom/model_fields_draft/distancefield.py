@@ -4,7 +4,8 @@ from django import forms
 from django.core.validators import ValidationError
 from django.contrib.gis.measure import Distance
 
-class DistanceSelectWidget(MultiWidget):
+
+class DistanceSelect(MultiWidget):
 
     UNIT_CHOICES = [(None, '-------'),
         ('km', 'km'), ('m', 'm'), ('cm', 'cm'),('mm', 'mm'),
@@ -15,12 +16,10 @@ class DistanceSelectWidget(MultiWidget):
         widgets = (
             NumberInput(),
             Select(choices=UNIT_CHOICES)      
-        )
-        super(DistanceValueUnitSelect, self).__init__(widgets=widgets, *args, **kwarg)
+            )
+        super(DistanceSelect, self).__init__(widgets=widgets, *args, **kwarg)
 
     def decompress(self, value):
-
-        print(value)
 
         if value == None:
             return [None, None]
@@ -28,7 +27,7 @@ class DistanceSelectWidget(MultiWidget):
 
 class DistanceFormField(forms.Field):
 
-    widget = DistanceSelectWidget
+    widget = DistanceSelect
 
     def clean(self, value):
 
@@ -40,7 +39,7 @@ class DistanceFormField(forms.Field):
             except:
                 return ValidationError('Invalid distance')
 
-class DistanceModelField(Field):
+class DistanceField(Field):
 
     def to_python(self, value):
 
@@ -48,11 +47,17 @@ class DistanceModelField(Field):
             return value
         if not value:
             return None
-        return Distance('%s%s' % (value[0], value[1]))
+        return Distance(value)
 
+    def from_db_value(self, value, expression, connection):
+        return self.to_python(value)
+
+    def get_prep_value(self, value):
+        if value is not None:
+            return 
 
     def formfield(self, **kwargs):
 
         defaults = {'form_class':DistanceFormField}
         defaults.update(kwargs)
-        return super(DistanceModelField, self).formfield(**defaults)
+        return super(DistanceField, self).formfield(**defaults)
