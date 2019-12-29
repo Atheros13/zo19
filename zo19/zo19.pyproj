@@ -98,6 +98,7 @@
     <Compile Include="zo\models\abstract\base_rank.py" />
     <Compile Include="zo\models\abstract\membership.py" />
     <Compile Include="zo\models\abstract\role.py" />
+    <Compile Include="zo\models\test.py" />
     <Compile Include="zo\models\person\__init__.py" />
     <Compile Include="zo\seed\person.py">
       <SubType>Code</SubType>
@@ -249,6 +250,7 @@
     <Content Include="zo\templates\zo\generic\createview.html" />
     <Content Include="zo\templates\zo\public\about.html" />
     <Content Include="zo\templates\zo\generic\action_message.html" />
+    <Content Include="zo\templates\zo\public\test.html" />
     <Content Include="zo\templates\zo\public\index.html" />
     <Content Include="zo\templates\zo\public\layout.html" />
     <Content Include="zo\templates\zo\login.html" />

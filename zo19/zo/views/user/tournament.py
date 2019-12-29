@@ -6,11 +6,26 @@ from zo.views.generic.permission import TempPasswordCheck
 
 from datetime import datetime
 
-class UserTournamentsView(LoginRequiredMixin, TempPasswordCheck, View):
 
-    template_name = 'zo/generic/listview_links.html'
+from django.forms import ModelForm
+from zo.models.test import Test1
+
+class TestForm(ModelForm):
+
+    class Meta:
+        model = Test1
+        fields = ['distance']
+
+class UserTournamentsView(View):
+
+    template_name = 'zo/public/test.html'
 
     def get(self, request, *args, **kwargs):
+
+        test = Test1.objects.all()[0]
+
+        t = TestForm(instance=test)
+
 
         return render(
             request,
@@ -19,5 +34,18 @@ class UserTournamentsView(LoginRequiredMixin, TempPasswordCheck, View):
                 'title':'Tournaments',
                 'message': 'Tournament stuff goes here',
                 'year':datetime.now().year,
+                'form':t,
             }
         )
+
+    def post(self, *args, **kwargs):
+
+        t = TestForm(self.request.POST)
+
+        print(t.instance)
+
+        if t.is_valid():
+            print(t.cleaned_data)
+            t.save()
+
+        return self.get(self.request)

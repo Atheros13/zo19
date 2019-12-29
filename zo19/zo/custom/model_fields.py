@@ -1,5 +1,6 @@
 from django.db.models import CharField
 from django.contrib.gis.measure import D, Distance
+from django.contrib.postgres.fields import ArrayField
 
 class DistanceUnitField(CharField):
 
