@@ -4,6 +4,8 @@ from django import forms
 from django.core.validators import ValidationError
 from django.contrib.gis.measure import Distance
 
+#
+
 class DistanceMethods():
 
     def convert_to_distance_obj(self, string):
@@ -30,9 +32,9 @@ class DistanceMethods():
 
     def convert_to_string(self, distance_obj):
 
-        ''' '''
-
         return distance_obj.__str__()
+
+#
 
 class DistanceSelect(MultiWidget):
 
@@ -80,11 +82,13 @@ class DistanceFormField(forms.Field):
             except:
                 return ValidationError('Invalid distance')
 
-class DistanceField(models.Field):
+#
+
+class CustomDistanceField(models.Field):
 
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = 100
-        super(DistanceField, self).__init__(*args, **kwargs)
+        super(CustomDistanceField, self).__init__(*args, **kwargs)
 
     def to_python(self, value):
 
@@ -115,4 +119,4 @@ class DistanceField(models.Field):
 
         defaults = {'form_class':DistanceFormField}
         defaults.update(kwargs)
-        return super(DistanceField, self).formfield(**defaults)
+        return super(CustomDistanceField, self).formfield(**defaults)

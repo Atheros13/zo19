@@ -1,12 +1,17 @@
 from django.db import models
 
-from zo.custom.model_fields_draft.distancefield import DistanceField
+from djangoyearlessdate.models import YearlessDate
+from djangoyearlessdate.forms import YearlessDateField
 
-class Test(models.Model):
-
-    distance = DistanceField()
+from zo.custom.model_fields.custom_distance import CustomDistanceField
 
 class Test1(models.Model):
 
-    distance = DistanceField()
-    
+    distance = CustomDistanceField()
+    yearless = YearlessDateField()
+
+class AnotherTest(models.Model):
+
+    distance = CustomDistanceField()
+    yearless = YearlessDateField()
+

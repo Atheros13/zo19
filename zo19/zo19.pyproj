@@ -78,13 +78,13 @@
     <Compile Include="zo\admin.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="zo\custom\form_fields.py">
+    <Compile Include="zo\custom\form_fields\custom_date.py" />
+    <Compile Include="zo\custom\form_fields\custom_model_choice.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="zo\custom\model_fields.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="zo\custom\model_fields_draft\distancefield.py" />
+    <Compile Include="zo\custom\form_fields\__init__.py" />
+    <Compile Include="zo\custom\model_fields\custom_distance.py" />
+    <Compile Include="zo\custom\model_fields\__init__.py" />
     <Compile Include="zo\forms\generic\login.py" />
     <Compile Include="zo\forms\public\password.py" />
     <Compile Include="zo\forms\public\__init__.py" />
@@ -182,7 +182,8 @@
     <Folder Include="tournament\templates\" />
     <Folder Include="tournament\templates\tournament\" />
     <Folder Include="zo\" />
-    <Folder Include="zo\custom\model_fields_draft\" />
+    <Folder Include="zo\custom\model_fields\" />
+    <Folder Include="zo\custom\form_fields\" />
     <Folder Include="zo\forms\generic\" />
     <Folder Include="zo\forms\contact\" />
     <Folder Include="zo\custom\" />

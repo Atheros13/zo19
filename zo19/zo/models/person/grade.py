@@ -57,7 +57,11 @@ class Grade(models.Model):
 
     age = models.ForeignKey(AgeGrade, null=True, on_delete=models.CASCADE, related_name='grades')
     genders = models.ManyToManyField(Gender, related_name='grades')
+
     ranks = models.ManyToManyField(Rank, related_name='grades')
+    #ranks_specific = models.ManyToManyField(Rank, related_name='grades_specific')
+    #ranks_and_under = models.ManyToManyField(Rank, related_name='grades_under')
+    #ranks_and_over = models.ManyToManyField(Rank, related_name='grades_over')
 
     def __str__(self):
 

@@ -8,13 +8,13 @@ from datetime import datetime
 
 
 from django.forms import ModelForm
-from zo.models.test import Test1
+from zo.models.test import AnotherTest
 
 class TestForm(ModelForm):
 
     class Meta:
-        model = Test1
-        fields = ['distance']
+        model = AnotherTest
+        fields = ['distance', 'yearless']
 
 class UserTournamentsView(View):
 
@@ -22,7 +22,7 @@ class UserTournamentsView(View):
 
     def get(self, request, *args, **kwargs):
 
-        test = Test1.objects.all()[0]
+        test = AnotherTest.objects.all()[0]
 
         t = TestForm(instance=test)
 
@@ -39,6 +39,8 @@ class UserTournamentsView(View):
         )
 
     def post(self, *args, **kwargs):
+
+        print(args, kwargs)
 
         t = TestForm(self.request.POST)
 
